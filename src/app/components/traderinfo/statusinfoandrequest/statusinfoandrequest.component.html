@@ -31,41 +31,43 @@
             </div>
              <div>
                 <div class="grid">
-                   
-                
                     <div class="col-12 md:col-12">
                         <div class="card p-fluid">
                             <div class="field grid">
-                                <label htmlFor="name3" class="col-12 mb-2 md:col-2 md:mb-0">Name</label>
-                                <div class="col-12 md:col-10">
+                                <label htmlFor="name3" class="col-12 mb-2 md:col-4 md:mb-0">Member/Client</label>
+                                <div class="col-12 md:col-8">
                                     <input pInputText id="name3" type="text" />
                                 </div>
                             </div>
                             <div class="field grid">
-                                <label htmlFor="email3" class="col-12 mb-2 md:col-2 md:mb-0">ID</label>
-                                <div class="col-12 md:col-10">
+                                <label htmlFor="email3" class="col-12 mb-2 md:col-4 md:mb-0">ID</label>
+                                <div class="col-12 md:col-8">
                                     <input pInputText id="email3" type="text" />
                                 </div>
                             </div>
 
                             <div class="field grid">
-                                <label htmlFor="email3" class="col-12 mb-2 md:col-2 md:mb-0">Phone Number</label>
-                                <div class="col-12 md:col-10">
+                                <label htmlFor="email3" class="col-12 mb-2 md:col-4 md:mb-0">Phone Number</label>
+                                <div class="col-12 md:col-8">
                                     <input pInputText id="email3" type="text" />
                                 </div>
                             </div>
 
                             <div class="field grid">
-                                <label htmlFor="email3" class="col-12 mb-2 md:col-2 md:mb-0">Type</label>
-                                <div class="col-12 md:col-10">
-                                    <input pInputText id="email3" type="text" />
+                                <label htmlFor="email3" class="col-12 mb-2 md:col-4 md:mb-0">Type</label>
+                                <div class="col-12 md:col-8">
+                                    
+                                        <p-dropdown [options]="dropdownItems"optionLabel="name" [showClear]="true" placeholder="Select a City"></p-dropdown>
+                                    
                                 </div>
                             </div>
                         </div>
                 
                     </div>
                 </div>
-                
+                <div>
+                    <button pButton pRipple label="Submit" icon="pi pi-check" class="p-button-text"></button>
+                </div>
              </div>
         </div>
     </div>
@@ -76,10 +78,6 @@
         <div class="card">
             <div class="flex align-items-center justify-content-between mb-4">
                 <h5>Responses</h5>
-                <!-- <div>
-                    <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
-                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
-                </div> -->
             </div>
 
             <span class="block text-600 font-medium mb-3">TODAY</span>
@@ -121,5 +119,5 @@
 
    
 </div>
-</div>
+
 

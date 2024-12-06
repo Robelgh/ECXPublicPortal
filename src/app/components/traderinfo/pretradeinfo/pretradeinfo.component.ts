@@ -35,10 +35,11 @@ export class PretradeinfoComponent {
 
 
   coffeeOptionShow:boolean=false;
-  isLocal:boolean;
+  isLocal:Number;
+  showLocal:boolean=false;
   filteredCommodities: any[] | undefined;
   pretradeCoffe:any[];
-  orginalPretradeCoffee:any[];
+  orginalPretradeNonCoffee:any[];
   pretradeNonCoffee:any[];
   commodity:any[]
   selectedCommodityAdvanced: any[] = [];
@@ -58,8 +59,8 @@ export class PretradeinfoComponent {
             this.commodity=com
         })
        this.marketdataService.getNonCoffeePretrade().then((info) => {
-        this.pretradeCoffe=info
-        this.orginalPretradeCoffee=info
+        this.pretradeNonCoffee=info
+        this.orginalPretradeNonCoffee=info
        }) 
 
       this.activeItem = this.items[0];
@@ -86,12 +87,14 @@ export class PretradeinfoComponent {
        if (this.isJSON(selectedItem)) {
         this.ngzone.run(()=>
         {
-          this.pretradeCoffe= this.orginalPretradeCoffee.filter((x)=> x.commodityType === selectedItem.name)
+          this.pretradeNonCoffee= this.orginalPretradeNonCoffee.filter((x)=> x.commodityType === selectedItem.name)
           if(selectedItem.name === "Coffee"){
             this.coffeeOptionShow = true;
           }
+          else{
+            this.coffeeOptionShow=false;
+          }
         })
-
         }
   }
 
@@ -99,9 +102,20 @@ export class PretradeinfoComponent {
     return typeof item === 'object' && item !== null;
   }
 
+  onSelectionChange() {
+    this.ngzone.run(()=>{
+      this.marketdataService.getCoffeePretrade(this.isLocal).then((x)=>{ 
+        this.pretradeCoffe=x;
+        (this.isLocal.toString() === "1")? this.showLocal=true : this.showLocal=false
+   })
+    })
+       
+  }
  
 clear(table: Table) {
   table.clear();
 }
+
+
 
 }

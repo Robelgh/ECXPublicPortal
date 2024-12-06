@@ -15,8 +15,9 @@
         <p-radioButton 
             name="pizza" 
             [(ngModel)]="isLocal" 
-            value="Cheese"  
-            inputId="ingredient1" />
+            value="1"  
+            inputId="ingredient1" 
+            (ngModelChange)="onSelectionChange()"/>
         <label for="ingredient1" class="ml-2">
             Local
         </label>
@@ -26,8 +27,9 @@
         <p-radioButton 
             name="pizza" 
             [(ngModel)]="isLocal" 
-            value="Mushroom" 
-            inputId="ingredient2" />
+            value="0" 
+            inputId="ingredient2" 
+            (ngModelChange)="onSelectionChange()"/>
         <label for="ingredient2" class="ml-2">
             Export
         </label>
@@ -37,30 +39,135 @@
 </div>
 
 </div>
-<div class="card">
+<div *ngIf="!coffeeOptionShow" class="card">
     <p-tabView>
-            <p-table [value]="pretradeCoffe" [paginator]="true" [rows]="10" responsiveLayout="scroll" >
+            <p-table [value]="pretradeNonCoffee" [paginator]="true" [rows]="10" responsiveLayout="scroll" >
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Commodity Type</th>
-                        <th >Symbol </th>
-                        <th >Warehouse Reciept Id </th>
-                        <th >Production Year </th>
-                        <th>Quantity</th>
+                        <th style="width: 5%; font-size: smaller;">SWHR</th>
+                        <th style="width: 5%; font-size: smaller;">Commodity Type</th>
+                        <th style="width: 5%; font-size: smaller;">Symbol </th>
+                        <th style="width: 5%; font-size: smaller;">Warehouse</th>
+                        <th style="width: 5%; font-size: smaller;">Production Year </th>
+                        <th style="width: 5%; font-size: smaller;">Quantity In Quintal</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-session>
                     <tr> 
-                        <td style="width: 5%">{{session.commodityType }}</td>
-                        <td style="width: 5%">{{session.symbol}}</td>
-                        <td style="width: 5%;">{{session.warehouseRecieptId}}</td>
-                        <td style="width: 5%;">{{session.productionYear}}</td>
-                        <td style="width: 5%;">{{session.quantity}}</td>
+                        <td style="width: 5%; font-size: smaller;">{{session.warehouseRecieptId}}</td>
+                        <td style="width: 5%; font-size: smaller;">{{session.commodityType}}</td>
+                        <td style="width: 5%; font-size: smaller;">{{session.symbol}}</td>
+                        <td style="width: 5%; font-size: smaller;">{{session.warehouse}}</td>
+                        <td style="width: 5%; font-size: smaller;">{{session.productionYear}}</td>
+                        <td style="width: 5%; font-size: smaller;">{{session.quantity}}</td>
                     </tr>
                 </ng-template>
             </p-table>
       
     </p-tabView>
+</div>
+
+<div *ngIf="coffeeOptionShow && !showLocal" class="card">
+     <h6>Export Coffee</h6>
+        <p-table [value]="pretradeCoffe" [paginator]="true" [rows]="10" responsiveLayout="scroll" class="small-font-table">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 5%; font-size: smaller;">Session Name </th>
+                    <th style="width: 5%; font-size: smaller;">Cup Value</th>
+                    <th style="width: 5%; font-size: smaller;">OwnerName  </th>
+                    <th style="width: 5%; font-size: smaller;">GRN Number</th>
+
+                    <th style="width: 5%; font-size: smaller;">Is Traceable</th>
+                    <th style="width: 5%; font-size: smaller;">#Of Bags </th>
+                    <th style="width: 5%; font-size: smaller;">Placed To</th>
+                    <th style="width: 5%; font-size: smaller;">PY</th>
+
+                    <th style="width: 5%; font-size: smaller;">Raw Value</th>
+                    <th style="width: 5%; font-size: smaller;">Symbol</th>
+                    <th style="width: 5%; font-size: smaller;">Total Value</th>
+                    <th style="width: 5%; font-size: smaller;">Warehouse </th>
+                    <!-- <th style="width: 5%; font-size: smaller;">Warehouse Reciept Id</th> -->
+                    <th style="width: 5%; font-size: smaller;">Washing Station </th>
+                    <th style="width: 5%; font-size: smaller;">Woreda</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-session>
+                <tr> 
+                 
+                    <td style="width: 5%; font-size: smaller;">{{session.commodityGroupI}}</td>
+                    <td style="width: 5%; font-size: smaller;">{{session.cupValue}}</td>
+                    <td style="width: 5%; font-size: smaller;">{{session.fullName}}</td>
+                    <td style="width: 5%; font-size: smaller;">{{session.grnNumber}}</td>
+
+                    <td style="width: 5%; font-size: smaller;">{{session.isTraceable }}</td>
+                    <td style="width: 5%; font-size: smaller;">{{session.numberOfBags}}</td>
+                    <td style="width: 5%; font-size: smaller;">{{session.placedTo}}</td>
+                    <td style="width: 5%; font-size: smaller;">{{session.productionYear}}</td>
+                    <td style="width: 5%; font-size: smaller;">{{session.rawValue}}</td>
+
+                    <td style="width: 3%; font-size: smaller;">{{session.symbol }}</td>
+                    <td style="width: 5%; font-size: smaller;">{{session.totalValue}}</td>
+                    <!-- <td style="width: 5%; font-size: smaller;">{{session.warehouse}}</td> -->
+                    <td style="width: 5%; font-size: smaller;">{{session.washingStation}}</td>
+                    <td style="width: 5%; font-size: smaller;">{{session.woreda}}</td>
+                </tr>
+            </ng-template>
+
+            
+        </p-table>
+ 
+</div>
+
+<div *ngIf="coffeeOptionShow && showLocal" class="card">
+  <h6>Local Coffee</h6>
+    <p-table [value]="pretradeCoffe" [paginator]="true" [rows]="10" responsiveLayout="scroll" class="small-font-table">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 5%; font-size: smaller;">Session Name </th>
+                <th style="width: 5%; font-size: smaller;">SWHR</th>
+                <th style="width: 5%; font-size: smaller;">GRNNumber</th>
+                <th style="width: 5%; font-size: smaller;">Symbol</th>
+                <th style="width: 5%; font-size: smaller;">#ofBags</th>
+                <th style="width: 5%; font-size: smaller;">Warehouse</th>
+                <th style="width: 5%; font-size: smaller;">PY </th>
+                <th style="width: 5%; font-size: smaller;">SBV</th>
+                <th style="width: 5%; font-size: smaller;">PDV</th>
+                <th style="width: 5%; font-size: smaller;">SDV</th>
+                <th style="width: 5%; font-size: smaller;">TRV</th>
+                <th style="width: 5%; font-size: smaller;">Moisture</th>
+                <th style="width: 5%; font-size: smaller;">OwnerName</th>
+                <th style="width: 5%; font-size: smaller;">Woreda</th>
+                <th style="width: 5%; font-size: smaller;">WashingStation</th>
+                <th style="width: 5%; font-size: smaller;">VAT/TOT</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-session>
+            <tr> 
+             
+                <td style="width: 5%; font-size: smaller;">{{session.commodityGroupI}}</td>
+                <td style="width: 5%; font-size: smaller;">{{session.warehouseRecieptId}}</td>
+                <td style="width: 5%; font-size: smaller;">{{session.grnNumber}}</td>
+                <td style="width: 5%; font-size: smaller;">{{session.symbol}}</td>
+
+                <td style="width: 5%; font-size: smaller;">{{session.numberOfBags }}</td>
+                <td style="width: 5%; font-size: smaller;">{{session.warehouse}}</td>
+                <td style="width: 5%; font-size: smaller;">{{session.productionYear}}</td>
+                <td style="width: 5%; font-size: smaller;">SBV</td>
+                <td style="width: 5%; font-size: smaller;">{{session.pdv}}</td>
+
+                <td style="width: 5%; font-size: smaller;">{{session.sdv }}</td>
+                <td style="width: 5%; font-size: smaller;">TRV</td>
+                <td style="width: 5%; font-size: smaller;">Moisture</td> 
+                <td style="width: 5%; font-size: smaller;">{{session.fullName}}</td>
+                <td style="width: 5%; font-size: smaller;">{{session.woreda}}</td>
+                <td style="width: 5%; font-size: smaller;">{{session.washingStation}}</td>
+                <td style="width: 5%; font-size: smaller;">VAT/TOT</td>
+            </tr>
+        </ng-template>
+
+        
+    </p-table>
+
 </div>
 
 

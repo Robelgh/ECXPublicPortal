@@ -33,7 +33,7 @@ export class MarketDataService {
     }
 
     getCoffeePretrade(num:Number){
-        return this.http.get<any>(baseUrl + '/pretradecoffee')
+        return this.http.get<any>(baseUrl + '/pretradecoffee' + '/' + num)
         .toPromise()
         .then(res => res)
         .then(data => data);

@@ -13,7 +13,8 @@ import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
 import { MarketDataService } from './demo/service/marketdata.service';
 import { SessionSchedule } from './demo/service/sessionSchedule.service';
-
+import { AuthService } from './demo/service/auth/auth.service';
+import { MapTo } from './demo/service/map.service';
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
@@ -21,7 +22,8 @@ import { SessionSchedule } from './demo/service/sessionSchedule.service';
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService,MarketDataService,SessionSchedule
+        PhotoService, ProductService,MarketDataService,SessionSchedule,AuthService,
+        MapTo
     ],
     bootstrap: [AppComponent],
 })
