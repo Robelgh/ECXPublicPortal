@@ -11,6 +11,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { TdateandsessionRoutingModule } from './tdateandsession-routing.module';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import { TdateandsessionRoutingModule } from './tdateandsession-routing.module';
         TabViewModule,
         PanelMenuModule,
         ButtonModule,
-        TdateandsessionRoutingModule
+        TdateandsessionRoutingModule,
+        AutoCompleteModule
     ],
     declarations: [Tdateandsession]
 })

@@ -1,20 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DashboardComponent } from './dashboard.component';
 import { ChartModule } from 'primeng/chart';
 import { MenuModule } from 'primeng/menu';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { TabViewModule } from 'primeng/tabview';
+
 import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-
-//import {NgApexchartsModule} from 'ng-apexcharts'
-
-
-import { DashboardsRoutingModule } from './dashboard-routing.module';
-
+import { ComplainandfeedbackRoutingModule } from './complainandfeedback-routing.module';
+import { Complainandfeedback } from './complainandfeedback.component';
 
 @NgModule({
     imports: [
@@ -24,12 +20,11 @@ import { DashboardsRoutingModule } from './dashboard-routing.module';
         MenuModule,
         TableModule,
         StyleClassModule,
+        TabViewModule,
         PanelMenuModule,
         ButtonModule,
-        AutoCompleteModule,
-        DashboardsRoutingModule,
-        //NgApexchartsModule,
+        ComplainandfeedbackRoutingModule
     ],
-    declarations: [DashboardComponent]
+    declarations: [Complainandfeedback]
 })
-export class DashboardModule { }
+export class ComplainandfeedbackModule { }

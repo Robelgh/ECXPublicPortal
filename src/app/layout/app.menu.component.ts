@@ -25,14 +25,17 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'Trade Date and Session', icon: 'pi pi-fw pi-id-card', routerLink: ['/tradeinfo/datesession'] },
                     { label: 'Pre-Trade Information', icon: 'pi pi-fw pi-check-square', routerLink: ['/tradeinfo/pretrade'] },
-                    { label: 'Status Information', icon: 'pi pi-fw pi-bookmark', routerLink: ['/tradeinfo/status'] },
-                  
+                    { label: 'Status Information', icon: 'pi pi-fw pi-bookmark', routerLink: ['/tradeinfo/statusinfo'] },
+                    { label: 'Complaint and Feedback', icon: 'pi pi-fw pi-comment', routerLink: ['/tradeinfo/complainfeedback'] },
                 ]
             },
             {
                 label: 'Market Data',
                 items: [
-                   // { label: 'Free Blocks', icon: 'pi pi-fw pi-eye', routerLink: ['/blocks'], badge: 'NEW' },
+                   { label: 'Daily Trade Data', icon: 'pi pi-fw pi-chart-line', routerLink: ['/blocks'], badge: 'NEW' },
+                   { label: 'Historical Data', icon: 'pi pi-history', routerLink: ['/blocks'], badge: 'NEW' },
+                   { label: 'Reports', icon: 'pi pi-fw pi-file-export', routerLink: ['/blocks'], badge: 'NEW' },
+                   { label: 'API Data Providing Service', icon: 'pi pi-fw pi-globe', routerLink: ['/blocks'], badge: 'NEW' },
                    
                 ]
             }

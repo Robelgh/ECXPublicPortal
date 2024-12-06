@@ -8,6 +8,7 @@ import { TraderInfoRoutingModule } from './traderinfo-routing.module';
   imports: [
     CommonModule,
     TraderInfoRoutingModule,
+    
   ]
 })
 export class TraderinfoModule { }

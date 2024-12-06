@@ -11,6 +11,9 @@ import { EventService } from './demo/service/event.service';
 import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
+import { MarketDataService } from './demo/service/marketdata.service';
+import { SessionSchedule } from './demo/service/sessionSchedule.service';
+
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
@@ -18,7 +21,7 @@ import { PhotoService } from './demo/service/photo.service';
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService
+        PhotoService, ProductService,MarketDataService,SessionSchedule
     ],
     bootstrap: [AppComponent],
 })

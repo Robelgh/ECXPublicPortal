@@ -1,1 +1,66 @@
-<p>pretradeinfo works!</p>
+
+<div class="card">
+
+<div class="m-1">
+    <p-autoComplete [(ngModel)]="selectedCommodityAdvanced" 
+    [suggestions]="filteredCommodities" 
+   (completeMethod)="filterCommodity($event)" 
+   (ngModelChange)="onCommoditySelect($event)"
+   field="name" 
+   [dropdown]="true">
+  </p-autoComplete>
+
+  <div *ngIf="coffeeOptionShow" class="flex flex-wrap gap-3 p-5">
+    <div class="flex align-items-center">
+        <p-radioButton 
+            name="pizza" 
+            [(ngModel)]="isLocal" 
+            value="Cheese"  
+            inputId="ingredient1" />
+        <label for="ingredient1" class="ml-2">
+            Local
+        </label>
+    </div>
+    
+    <div class="flex align-items-center">
+        <p-radioButton 
+            name="pizza" 
+            [(ngModel)]="isLocal" 
+            value="Mushroom" 
+            inputId="ingredient2" />
+        <label for="ingredient2" class="ml-2">
+            Export
+        </label>
+    </div>
+  
+</div>
+</div>
+
+</div>
+<div class="card">
+    <p-tabView>
+            <p-table [value]="pretradeCoffe" [paginator]="true" [rows]="10" responsiveLayout="scroll" >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Commodity Type</th>
+                        <th >Symbol </th>
+                        <th >Warehouse Reciept Id </th>
+                        <th >Production Year </th>
+                        <th>Quantity</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-session>
+                    <tr> 
+                        <td style="width: 5%">{{session.commodityType }}</td>
+                        <td style="width: 5%">{{session.symbol}}</td>
+                        <td style="width: 5%;">{{session.warehouseRecieptId}}</td>
+                        <td style="width: 5%;">{{session.productionYear}}</td>
+                        <td style="width: 5%;">{{session.quantity}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+      
+    </p-tabView>
+</div>
+
+
