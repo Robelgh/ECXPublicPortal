@@ -40,7 +40,7 @@ export class MarketDataService {
     }
 
     getNonCoffeePretrade(){
-        return this.http.get<any>(baseUrl + '/pretradecoffee')
+        return this.http.get<any>(baseUrl + '/pretradenoncoffee')
         .toPromise()
         .then(res => res)
         .then(data => data);

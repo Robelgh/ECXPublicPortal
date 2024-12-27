@@ -1,39 +1,58 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { Product } from '../../../demo/api/product';
-import { ProductService } from '../../../demo/service/product.service';
-import { Subscription, debounceTime } from 'rxjs';
-import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { Component,NgZone } from '@angular/core';
+import { ComplainFeedBackService } from 'src/app/demo/service/complainFeedBack..service.';
+import { MapTo } from 'src/app/demo/service/map.service';
 
 @Component({
-    templateUrl: './complainandfeedback.component.html',
+  templateUrl: './complainandfeedback.component.html',
+
 })
-export class Complainandfeedback  {
+export class ComplainandfeedbackComponent {
 
-    selectedState: any = null;
+  constructor(
+    private service:ComplainFeedBackService,
+    private mapto:MapTo,
+    private ngzone:NgZone
+  ){}
 
-    states: any[] = [
-        {name: 'Arizona', code: 'Arizona'},
-        {name: 'California', value: 'California'},
-        {name: 'Florida', code: 'Florida'},
-        {name: 'Ohio', code: 'Ohio'},
-        {name: 'Washington', code: 'Washington'}
-    ];
-  
-    dropdownItems = [
-        { name: 'Option 1', code: 'Option 1' },
-        { name: 'Option 2', code: 'Option 2' },
-        { name: 'Option 3', code: 'Option 3' }
-    ];
-  
-    cities1: any[] = [];
-  
-    cities2: any[] = [];
-  
-    city1: any = null;
-  
-    city2: any = null;
+  selectedState: any = null;
+
+ complainModel:any = {};
+ complains:any=[];
+
+  dropdownItems = [
+      { name: 'GRN', code: 'GRN' },
+      { name: 'WHR', code: 'WHR' },
+      { name: 'PSA', code: 'PSA' }
+  ];
 
 
+ ngOnInit(): void {
+  this.ngzone.run(()=>{
+    this.populate()
+    })
+        ;
+      }
+
+  populate(){
+    this.service.getFeedBack().then((x)=>{
+      this.ngzone.run(()=>{
+        this.complains=x.data
+      })
+     })
+  }
+
+  save(){
+    this.complainModel.id="00000000-0000-0000-0000-000000000000";
+    this.complainModel.CreatedBy="robel"
+    console.log(this.mapto.convertJsonToFormData(this.complainModel))
+    this.service.addFeedBack(this.mapto.convertJsonToFormData(this.complainModel)).then((x)=>{
+    if(x.success){
+      this.ngzone.run(()=>{
+        this.populate()
+       })
+    }
+    })
    
+  }
+
 }

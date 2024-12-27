@@ -1,26 +1,37 @@
 <div class="grid">
 
 
-    <div class="col-12 xl:col-6">
+    <div class="col-12 xl:col-8">
         <div class="card">
             <h5>Pending Requests</h5>
-            <p-table  [paginator]="true" [rows]="5" responsiveLayout="scroll" >
+            <p-table #dt [value]="complains"  responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Session</th>
-                        <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                        <th pSortableColumn="price">Open <p-sortIcon field="price"></p-sortIcon></th>
-                        <th>Close</th>
+                      
+                        <th >Topic</th>
+                        <th >Description</th>
+                        <th >Status</th>
+                        <th></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-product>
+                <ng-template pTemplate="body" let-order>
                     <tr>
-                        <td style="width: 20%; min-width: 5rem;">
-                           Session1
+                      
+                        <td style="width:4%; min-width: 15vh;"><span class="p-column-title">Topic</span>
+                            {{order.topic}}
                         </td>
-                        <td style="width: 70%; min-width: 7rem;">Washed Sidama, Yirgachefe , Limu , Mixed Coffee (Washed Coffee)</td>
-                        <td style="width: 5%; min-width: 8rem;">3:15</td>
-                        <td style="width: 5%;">11:30</td>
+                        <td style="width:20%;min-width: 50vh;">
+                            <span class="p-column-title">Description</span>
+                            {{ order.description}}
+                        </td>
+                     
+                      
+                        <td *ngIf="order.isActive" style="width:14%; min-width: 10rem;"><span class="p-column-title">Status</span>
+                            <span style="border-radius: 15px; background-color: #ff0e0e; padding: 7px;">Pending</span>
+                        </td>
+                        <td *ngIf="!order.isActive" style="width:14%; min-width: 10rem;"><span class="p-column-title">Status</span>
+                            <span style="border-radius: 15px; background-color: #22bb33; padding: 7px;">Responded</span>
+                        </td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -31,95 +42,75 @@
             </div>
              <div>
                 <div class="grid">
-                   
-                
                     <div class="col-12 md:col-12">
                         <div class="card p-fluid">
                             <div class="field grid">
-                                <label htmlFor="name3" class="col-12 mb-2 md:col-2 md:mb-0">Name</label>
-                                <div class="col-12 md:col-10">
-                                    <input pInputText id="name3" type="text" />
+                                <label htmlFor="name3" class="col-12 mb-2 md:col-4 md:mb-0">Name</label>
+                                <div class="col-12 md:col-8">
+                                    <input [(ngModel)]="complainModel.Name" pInputText id="name3" type="text" />
                                 </div>
                             </div>
                             <div class="field grid">
-                                <label htmlFor="email3" class="col-12 mb-2 md:col-2 md:mb-0">ID</label>
-                                <div class="col-12 md:col-10">
-                                    <input pInputText id="email3" type="text" />
-                                </div>
-                            </div>
-
-                            <div class="field grid">
-                                <label htmlFor="email3" class="col-12 mb-2 md:col-2 md:mb-0">Phone Number</label>
-                                <div class="col-12 md:col-10">
-                                    <input pInputText id="email3" type="text" />
+                                <label htmlFor="email3" class="col-12 mb-2 md:col-4 md:mb-0">Email</label>
+                                <div class="col-12 md:col-8">
+                                    <input [(ngModel)]="complainModel.Email"  pInputText id="email3" type="text" />
                                 </div>
                             </div>
 
                             <div class="field grid">
-                                <label htmlFor="email3" class="col-12 mb-2 md:col-2 md:mb-0">Type</label>
-                                <div class="col-12 md:col-10">
-                                    <input pInputText id="email3" type="text" />
+                                <label htmlFor="email3" class="col-12 mb-2 md:col-4 md:mb-0">Phone Number</label>
+                                <div class="col-12 md:col-8">
+                                    <input [(ngModel)]="complainModel.PhoneNumber"  pInputText id="email3" type="text" />
+                                </div>
+                            </div>
+
+                            <div class="field grid">
+                                <label htmlFor="name3" class="col-12 mb-2 md:col-4 md:mb-0">Topic Of Feed Back</label>
+                                <div class="col-12 md:col-8">
+                                    <input [(ngModel)]="complainModel.Topic"  pInputText id="name3" type="text" />
+                                </div>
+                            </div>
+                            <div class="field grid">
+                                <label htmlFor="name3" class="col-12 mb-2 md:col-4 md:mb-0">Description</label>
+                                <div class="col-12 md:col-8">
+                                    <textarea 
+                                    [(ngModel)]="complainModel.Description" 
+                                    rows="5"
+                                    cols="30" 
+                                    pInputTextarea 
+                                    >
+                                </textarea>
                                 </div>
                             </div>
                         </div>
                 
                     </div>
                 </div>
-                
+                <div>
+                    <button pButton pRipple label="Submit" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+                </div>
              </div>
         </div>
     </div>
 
-    <div class="col-12 xl:col-6">
+    <div class="col-12 xl:col-4">
       
 
         <div class="card">
             <div class="flex align-items-center justify-content-between mb-4">
                 <h5>Responses</h5>
-                <!-- <div>
-                    <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
-                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
-                </div> -->
             </div>
 
             <span class="block text-600 font-medium mb-3">TODAY</span>
-            <ul class="p-0 mx-0 mt-0 mb-4 list-none">
-                <li class="flex align-items-center py-2 border-bottom-1 surface-border">
-                    <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                        <i class="pi pi-dollar text-xl text-blue-500"></i>
-                    </div>
-                    <span class="text-900 line-height-3">Richard Jones
-                <span class="text-700"> has purchased a blue t-shirt for <span class="text-blue-500">79$</span></span>
-            </span>
-                </li>
-                <li class="flex align-items-center py-2">
-                    <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-orange-100 border-circle mr-3 flex-shrink-0">
-                        <i class="pi pi-download text-xl text-orange-500"></i>
-                    </div>
-                    <span class="text-700 line-height-3">Your request for withdrawal of <span class="text-blue-500 font-medium">2500$</span> has been initiated.</span>
-                </li>
-            </ul>
+             <ul class="p-0 m-0 list-none"><li></li></ul>
 
             <span class="block text-600 font-medium mb-3">YESTERDAY</span>
             <ul class="p-0 m-0 list-none">
-                <li class="flex align-items-center py-2 border-bottom-1 surface-border">
-                    <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                        <i class="pi pi-dollar text-xl text-blue-500"></i>
-                    </div>
-                    <span class="text-900 line-height-3">Keyser Wick
-                <span class="text-700"> has purchased a black jacket for <span class="text-blue-500">59$</span></span>
-            </span>
-                </li>
-                <li class="flex align-items-center py-2 border-bottom-1 surface-border">
-                    <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-pink-100 border-circle mr-3 flex-shrink-0">
-                        <i class="pi pi-question text-xl text-pink-500"></i>
-                    </div>
-                    <span class="text-900 line-height-3">Jane Davis<span class="text-700"> has posted a new questions about your product.</span></span>
-                </li>
+              <li></li>
             </ul>
         </div>
 
    
 </div>
-</div>
+
 

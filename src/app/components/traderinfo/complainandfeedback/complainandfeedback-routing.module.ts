@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { Complainandfeedback } from './complainandfeedback.component';
+import { RouterModule, Routes } from '@angular/router';
+
+import { ComplainandfeedbackComponent } from './complainandfeedback.component';
+
+const routes: Routes = [];
 
 @NgModule({
-    imports: [RouterModule.forChild([
-        { path: '', component: Complainandfeedback }
-    ])],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild([
+    { path: '', component: ComplainandfeedbackComponent }
+])],
+  exports: [RouterModule]
 })
-export class ComplainandfeedbackRoutingModule { }
+export class StatusinfoandrequestRoutingModule { }

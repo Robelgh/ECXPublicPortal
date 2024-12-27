@@ -15,6 +15,7 @@ import { MarketDataService } from './demo/service/marketdata.service';
 import { SessionSchedule } from './demo/service/sessionSchedule.service';
 import { AuthService } from './demo/service/auth/auth.service';
 import { MapTo } from './demo/service/map.service';
+import { ComplainFeedBackService } from './demo/service/complainFeedBack..service.';
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
@@ -23,7 +24,7 @@ import { MapTo } from './demo/service/map.service';
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
         PhotoService, ProductService,MarketDataService,SessionSchedule,AuthService,
-        MapTo
+        MapTo,ComplainFeedBackService
     ],
     bootstrap: [AppComponent],
 })

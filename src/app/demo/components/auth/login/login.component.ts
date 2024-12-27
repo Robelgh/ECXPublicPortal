@@ -28,17 +28,34 @@ export class LoginComponent {
                 private mapto:MapTo
     ) { }
 
+   
+
     login(){
         console.log(this.mapto.isWalkingCustomer(this.loginModel.UserName))
-        // this.authService.auth(this.mapto.convertJsonToFormData(this.loginModel)).then(data => {
-        //     if(data.success)
-        //     {
-        //         this.authService.login(data)
-        //     }
-        //     else{
-        //        this.errorMessage=data.message
-        //     }
-        // });
+        if(this.mapto.isWalkingCustomer(this.loginModel.UserName))
+        {
+            this.authService.auth(this.mapto.convertJsonToFormData(this.loginModel)).then(data => {
+                if(data.success)
+                {
+                    this.authService.login(data)
+                }
+                else{
+                this.errorMessage=data.message
+                }
+            });
+        }
+        else{
+                this.authService.auth(this.mapto.convertJsonToFormData(this.loginModel)).then(data => {
+                        if(data.success)
+                        {
+                            this.authService.login(data)
+                        }
+                        else{
+                        this.errorMessage=data.message
+                        }
+                    });
+        }
+    
         
     }
 }

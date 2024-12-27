@@ -8,7 +8,8 @@ import { jwtDecode } from "jwt-decode";
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 
-const baseUrl = `${environment.apiUrl}/Account/login`;
+const baseUrl = `${environment.apiUrl}/Account`;
+
 
 
 @Injectable({
@@ -22,7 +23,7 @@ export class AuthService {
     ){}
 
     auth(data:any) {
-        return this.http.post<any>(baseUrl,data)
+        return this.http.post<any>(baseUrl + "/ADlogin",data)
             .toPromise()
             .then(res => res)
             .then(data => data);

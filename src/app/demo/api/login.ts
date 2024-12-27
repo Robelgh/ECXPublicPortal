@@ -3,7 +3,6 @@ interface InventoryStatus {
     value: string;
 }
 export interface Login {
-    
     UserName?: string;
     Password?: string;
 }
