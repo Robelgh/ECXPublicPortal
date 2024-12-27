@@ -1,0 +1,166 @@
+<div class="grid">
+    <div class="col-12 xl:col-8">
+        <div class="card">
+            <div class="flex align-items-center justify-content-between mb-4">
+                <h5>Reports</h5>
+            </div>
+
+            <div class="card flex justify-content-center">
+                <p-accordion [activeIndex]="0">
+                    <p-accordionTab header="Daily Trade Analysis">
+                        <p-table
+                        #dt1
+                        [value]="customers"
+                        dataKey="id"
+                        [rows]="3"
+                        [showCurrentPageReport]="true"
+                        [rowsPerPageOptions]="[10, 25, 50]"
+                        [loading]="loading"
+                        [paginator]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [globalFilterFields]="[
+                            'date',
+                        ]"
+                    >
+                        <ng-template pTemplate="caption">
+                            <div class="flex">
+                                <button
+                                    pButton
+                                    label="Clear"
+                                    class="p-button-outlined"
+                                    icon="pi pi-filter-slash"
+                                    (click)="clear(dt1)"
+                                ></button>
+                                <span class="p-input-icon-left ml-auto">
+                                    <i class="pi pi-search"></i>
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        (input)="
+                                            dt1.filterGlobal(
+                                                $event.target.value,
+                                                'contains'
+                                            )
+                                        "
+                                        placeholder="Search keyword"
+                                    />
+                                </span>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                               
+                              
+                                <th >
+                                    <div class="flex align-items-center">
+                                        Date
+                                        <p-columnFilter
+                                            type="date"
+                                            field="date"
+                                            display="menu"
+                                        ></p-columnFilter>
+                                    </div>
+                                </th>
+                              
+                                <th>
+                                    <div class="flex align-items-center">
+                                        Document
+                                        <p-columnFilter
+                                            type="boolean"
+                                            field="verified"
+                                            display="menu"
+                                        ></p-columnFilter>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="flex align-items-center">
+                                        Action
+                                        <p-columnFilter
+                                            type="boolean"
+                                            field="verified"
+                                            display="menu"
+                                        ></p-columnFilter>
+                                    </div>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-customer>
+                            <tr>
+                            
+                                <td>
+                                    {{
+                                        customer.date | date : "MM/dd/yyyy"
+                                    }}
+                                </td>
+                                <td>
+                                    <i class="pi pi-file-pdf"></i>
+                                </td>
+                                <td>
+                                  <i class="pi pi-download" style="cursor: pointer;"></i>
+                                </td>
+                                <td>
+                                    <p-tag
+                                        [value]="customer.status"
+                                        [severity]="
+                                            getSeverity(customer.status)
+                                        "
+                                    ></p-tag>
+                                </td>
+                                <td>
+                                    <p-progressBar
+                                        [value]="customer.activity"
+                                        [showValue]="false"
+                                    ></p-progressBar>
+                                </td>
+                                <td class="text-center">
+                                    <i
+                                        class="pi"
+                                        [ngClass]="{
+                                            'text-green-500 pi-check-circle':
+                                                customer.verified,
+                                            'text-red-500 pi-times-circle':
+                                                !customer.verified
+                                        }"
+                                    ></i>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="7">No Data Found.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    </p-accordionTab>
+                    <p-accordionTab header="Weakly Trade Analysis">
+                        <p-button label="Subscribe"></p-button>
+                    </p-accordionTab>
+                    <p-accordionTab header="Quarter Trade Analysis">
+                        <p-button label="Subscribe"></p-button>
+                    </p-accordionTab>
+                    <p-accordionTab header="Annual  Trade Analysis">
+                        <p-button label="Subscribe"></p-button>
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 xl:col-4">
+        <div class="card">
+            <div class="flex align-items-center justify-content-between mb-4">
+                <h5>Sunscription Status</h5>
+            </div>
+
+            <span class="block text-600 font-medium mb-3">TODAY</span>
+            <ul class="p-0 m-0 list-none">
+                <li></li>
+            </ul>
+
+            <span class="block text-600 font-medium mb-3">YESTERDAY</span>
+            <ul class="p-0 m-0 list-none">
+                <li></li>
+            </ul>
+        </div>
+    </div>
+</div>

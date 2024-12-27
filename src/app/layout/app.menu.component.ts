@@ -32,10 +32,10 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Market Data',
                 items: [
-                   { label: 'Daily Trade Data', icon: 'pi pi-fw pi-chart-line', routerLink: ['/dailytradedata'], badge: 'NEW' },
-                   { label: 'Historical Data', icon: 'pi pi-history', routerLink: ['/historical'], badge: 'NEW' },
-                   { label: 'Reports', icon: 'pi pi-fw pi-file-export', routerLink: ['/report'], badge: 'NEW' },
-                   { label: 'API Data Providing Service', icon: 'pi pi-fw pi-globe', routerLink: ['/provideapi'], badge: 'NEW' },
+                   { label: 'Daily Trade Data', icon: 'pi pi-fw pi-chart-line', routerLink: ['/market/dailytrade'], badge: 'NEW' },
+                   { label: 'Historical Data', icon: 'pi pi-history', routerLink: ['/market/historical'], badge: 'NEW' },
+                   { label: 'Reports', icon: 'pi pi-fw pi-file-export', routerLink: ['/market/report'], badge: 'NEW' },
+                   { label: 'API Data Providing Service', icon: 'pi pi-fw pi-globe', routerLink: ['/market/provideapi'], badge: 'NEW' },
                    
                 ]
             }
