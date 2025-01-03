@@ -32,6 +32,13 @@ export class MarketDataService {
         .then(data => data);
     }
 
+    getDailyTradeDate(id:any){
+        return this.http.get<any>(baseUrl +'/dailytradedata'+'/' + id)
+        .toPromise()
+        .then(res => res)
+        .then(data => data);
+    }
+
     getCoffeePretrade(num:Number){
         return this.http.get<any>(baseUrl + '/pretradecoffee' + '/' + num)
         .toPromise()
