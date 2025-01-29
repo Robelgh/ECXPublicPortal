@@ -2,10 +2,11 @@ import { Component, OnInit, PLATFORM_ID, ChangeDetectorRef, inject, effect } fro
 import { ChartModule } from 'primeng/chart';
 import { CustomerService } from '../../../demo/service/customer.service';
 import { Customer, Representative } from '../../../demo/api/customer';
-
 import { MarketDataService } from '../../../demo/service/marketdata.service';
+import { PdfExportService } from 'src/app/demo/service/PdfExport.service';
 //import jsPDF from "jspdf";
 //import "jspdf-autotable";
+import { jsPDF } from 'jspdf';
 
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;
@@ -31,7 +32,9 @@ export class DailytradedataComponent {
     selectedCommodity: string="Coffee";
     selectedTab: number=0;
     
-    constructor(private customerService: CustomerService ,private marketDataService:MarketDataService) {}
+    constructor(private customerService: CustomerService,
+                private marketDataService:MarketDataService,
+                private pdfExportService:PdfExportService) {}
     
       ngOnInit() {
           this.customerService.getCustomersLarge().then((customers) => {
@@ -107,9 +110,9 @@ export class DailytradedataComponent {
     }
 
     onCommoditySelect(selectedItem: any) {
-     
+      
         if (this.isJSON(selectedItem)) {
-           this.selectedCommodity=selectedItem.name;
+           this.selectedCommodity=selectedItem.engName;
             this.marketDataService.getDailyTradeDate(selectedItem.commodityId).then((market => {
                 this.products=market
 
@@ -121,19 +124,25 @@ export class DailytradedataComponent {
             }))
         }
 
-      }
+    }
 
-      isJSON(item: any): boolean {
+    isJSON(item: any): boolean {
         return typeof item === 'object' && item !== null;
-      }
+    }
 
-      onTabChange(event: any): void {
+    onTabChange(event: any): void {
          this.selectedTab= event.index
        // this.filterSessionsByDay(event.index)
-      }
-      exportPdf() {
-   
-      }
+    }
+
+    exportPdf(){
+        console.log(this.products)
+ 
+        this.pdfExportService.exportTableToPdf();
+
+
+    }
+ 
 }
 
       

@@ -1,336 +1,580 @@
 <div class="grid">
     <div class="col-12">
         <div class="card">
-            <div class="flex align-items-center justify-content-between ">
+            <div class="flex align-items-center justify-content-between">
                 <h5>Daily Trade Data</h5>
             </div>
             <div class="flex align-items-center justify-content-between mb-1">
-                <div class="flex align-items-start"> <label>Date: 1/1/2025</label></div>
+                <div class="flex align-items-start">
+                    <label>Date: 1/1/2025</label>
+                </div>
                 <div class="flex align-items-end">
                     <ul class="list-none">
                         <li>Currency :ETB</li>
-                        <li>Volume : feresula for coffee and quintal for other</li>
+                        <li>
+                            Volume : feresula for coffee and quintal for other
+                        </li>
                         <li>1 Quintal : 100kg</li>
                         <li>1 Feresula : 17kg</li>
                     </ul>
                 </div>
             </div>
-            <div style="display: flex; justify-content: flex-start; gap: 10px; margin-bottom: 20px;">
+            <div
+                style="
+                    display: flex;
+                    justify-content: flex-start;
+                    gap: 10px;
+                    margin-bottom: 20px;
+                "
+            >
                 <h5>Commodity</h5>
-                <p-autoComplete [(ngModel)]="selectedCommodityAdvanced" 
-                                [suggestions]="filteredCountries" 
-                                (completeMethod)="filterCommodity($event)" 
-                                (ngModelChange)="onCommoditySelect($event)"
-                                field="name" 
-                                [dropdown]="true">
+                <p-autoComplete
+                    [(ngModel)]="selectedCommodityAdvanced"
+                    [suggestions]="filteredCountries"
+                    (completeMethod)="filterCommodity($event)"
+                    (ngModelChange)="onCommoditySelect($event)"
+                    field="engName"
+                    [dropdown]="true"
+                >
                 </p-autoComplete>
-                <button (click)="exportPdf()" pButton  label="Export as pdf"></button>
+                <div class="flex">
+                    <button
+                        type="button"
+                        pButton
+                        pRipple
+                        icon="pi pi-file-pdf"
+                        (click)="exportPdf()"
+                        class="p-button-warning mr-2"
+                        pTooltip="PDF"
+                        tooltipPosition="bottom"
+                    ></button>
+                </div>
             </div>
-            <div class="card p-5 ">
-                <p-tabView *ngIf="selectedCommodity == 'Coffee'" (onChange)="onTabChange($event)">
-                    <p-tabPanel  header="Washed">
+            <div class="card p-5">
+                <p-tabView
+                    *ngIf="selectedCommodity == 'Coffee'"
+                    (onChange)="onTabChange($event)"
+                >
+                    <p-tabPanel header="Washed">
                         <div class="card flex justify-content-center">
                             <p-table
-                                    #dt1
-                                    [value]="products"
-                                    dataKey="id"
-                                    [rows]="3"
-                                    [showCurrentPageReport]="true"
-                                    [rowsPerPageOptions]="[10, 25, 50]"
-                                    [loading]="loading"
-                                    [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                                    [globalFilterFields]="[
-                                        'date',
-                                    ]"
-                                >
-                                    <ng-template pTemplate="caption">
-                                        <div class="flex">
-                                            <button
-                                                pButton
-                                                label="Clear"
-                                                class="p-button-outlined"
-                                                icon="pi pi-filter-slash"
-                                                (click)="clear(dt1)"
-                                            ></button>
-                                            <span class="p-input-icon-left ml-auto">
-                                                <i class="pi pi-search"></i>
-                                                <input
-                                                    pInputText
+                                [exportHeader]="'customExportHeader'"
+                                #dt1
+                                [value]="products"
+                                dataKey="id"
+                                [rows]="3"
+                                [showCurrentPageReport]="true"
+                                [rowsPerPageOptions]="[10, 25, 50]"
+                                [loading]="loading"
+                                [paginator]="true"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                [globalFilterFields]="['date']"
+                            >
+                                <ng-template pTemplate="caption">
+                                    <div class="flex">
+                                        <button
+                                            pButton
+                                            label="Clear"
+                                            class="p-button-outlined"
+                                            icon="pi pi-filter-slash"
+                                            (click)="clear(dt1)"
+                                        ></button>
+                                        <span class="p-input-icon-left ml-auto">
+                                            <i class="pi pi-search"></i>
+                                            <input
+                                                pInputText
+                                                type="text"
+                                                (input)="
+                                                    dt1.filterGlobal(
+                                                        $event.target.value,
+                                                        'contains'
+                                                    )
+                                                "
+                                                placeholder="Search keyword"
+                                            />
+                                        </span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Commodity Type
+                                                <p-columnFilter
                                                     type="text"
-                                                    (input)="
-                                                        dt1.filterGlobal(
-                                                            $event.target.value,
-                                                            'contains'
-                                                        )
-                                                    "
-                                                    placeholder="Search keyword"
-                                                />
-                                            </span>
-                                        </div>
-                                    </ng-template>
-                                    <ng-template pTemplate="header">
-                                        <tr>
-                                            <th >
-                                                <div class="flex align-items-center">
-                                                    Commodity Type
-                                                    <p-columnFilter type="text" field="commoditytype" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                          
-                                            <th>
-                                                <div class="flex align-items-center"> Symbol <p-columnFilter type="symbol"    field="symbol" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="flex align-items-center"> P.Year <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="flex align-items-center"> Prev Close <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="flex align-items-center"> Close <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="flex align-items-center"> Difference <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="flex align-items-center"> Day High <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="flex align-items-center"> Day Low <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="flex align-items-center"> Volume <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-product>
-                                        <tr>
-                                            <td style="width: 12%;">{{product.commodityCatagory}}</td>
-                                            <td style="width: 12%">{{product.symbol}}</td>
-                                            <td style="width: 12%">{{product.productionYear}}</td>
-                                            <td style="width: 12%">{{product.previousClosing}}</td>
-                                            <td style="width: 12%;">{{product.closingPrice}}</td>
-                                            <td style="width: 12%">{{product.change}}</td>
-                                            <td style="width: 12%;">{{product.dayHigh}}</td>
-                                            <td style="width: 12%;">{{product.dayLow}}</td>
-                                            <td style="width: 12%;">{{product.volumeInQuintal}}</td> 
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="emptymessage">
-                                        <tr>
-                                            <td colspan="7">No Data Found.</td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
+                                                    field="commoditytype"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Symbol
+                                                <p-columnFilter
+                                                    type="symbol"
+                                                    field="symbol"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                P.Year
+                                                <p-columnFilter
+                                                    type="Number"
+                                                    field="Number"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Prev Close
+                                                <p-columnFilter
+                                                    type="Number"
+                                                    field="Number"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Close
+                                                <p-columnFilter
+                                                    type="Number"
+                                                    field="Number"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Difference
+                                                <p-columnFilter
+                                                    type="Number"
+                                                    field="Number"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Day High
+                                                <p-columnFilter
+                                                    type="Number"
+                                                    field="Number"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Day Low
+                                                <p-columnFilter
+                                                    type="Number"
+                                                    field="Number"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Volume
+                                                <p-columnFilter
+                                                    type="Number"
+                                                    field="Number"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-product>
+                                    <tr>
+                                        <td style="width: 12%">
+                                            {{ product.origin }}
+                                        </td>
+                                        <td style="width: 12%">
+                                            {{ product.symbol }}
+                                        </td>
+                                        <td style="width: 12%">
+                                            {{ product.productionYear }}
+                                        </td>
+                                        <td style="width: 12%">
+                                            {{ product.previousClosing }}
+                                        </td>
+                                        <td style="width: 12%">
+                                            {{ product.closingPrice }}
+                                        </td>
+                                        <td style="width: 12%">
+                                            {{ product.change }}
+                                        </td>
+                                        <td style="width: 12%">
+                                            {{ product.dayHigh }}
+                                        </td>
+                                        <td style="width: 12%">
+                                            {{ product.dayLow }}
+                                        </td>
+                                        <td style="width: 12%">
+                                            {{ product.volumeInQuintal }}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="7">No Data Found.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </div>
                     </p-tabPanel>
-                    <p-tabPanel  header="unwashed">
+                    <p-tabPanel header="unwashed">
                         <div class="card flex justify-content-center">
                             <p-table
-                                    #dt1
-                                    [value]="customers"
-                                    dataKey="id"
-                                    [rows]="3"
-                                    [showCurrentPageReport]="true"
-                                    [rowsPerPageOptions]="[10, 25, 50]"
-                                    [loading]="loading"
-                                    [paginator]="true"
-                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                                    [globalFilterFields]="[
-                                        'date',
-                                    ]"
-                                >
-                                    <ng-template pTemplate="caption">
-                                        <div class="flex">
-                                            <button
-                                                pButton
-                                                label="Clear"
-                                                class="p-button-outlined"
-                                                icon="pi pi-filter-slash"
-                                                (click)="clear(dt1)"
-                                            ></button>
-                                            <span class="p-input-icon-left ml-auto">
-                                                <i class="pi pi-search"></i>
-                                                <input
-                                                    pInputText
+                                #dt1
+                                [value]="customers"
+                                dataKey="id"
+                                [rows]="3"
+                                [showCurrentPageReport]="true"
+                                [rowsPerPageOptions]="[10, 25, 50]"
+                                [loading]="loading"
+                                [paginator]="true"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                [globalFilterFields]="['date']"
+                            >
+                                <ng-template pTemplate="caption">
+                                    <div class="flex">
+                                        <button
+                                            pButton
+                                            label="Clear"
+                                            class="p-button-outlined"
+                                            icon="pi pi-filter-slash"
+                                            (click)="clear(dt1)"
+                                        ></button>
+                                        <span class="p-input-icon-left ml-auto">
+                                            <i class="pi pi-search"></i>
+                                            <input
+                                                pInputText
+                                                type="text"
+                                                (input)="
+                                                    dt1.filterGlobal(
+                                                        $event.target.value,
+                                                        'contains'
+                                                    )
+                                                "
+                                                placeholder="Search keyword"
+                                            />
+                                        </span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Commodity Type
+                                                <p-columnFilter
                                                     type="text"
-                                                    (input)="
-                                                        dt1.filterGlobal(
-                                                            $event.target.value,
-                                                            'contains'
-                                                        )
-                                                    "
-                                                    placeholder="Search keyword"
-                                                />
-                                            </span>
-                                        </div>
-                                    </ng-template>
-                                    <ng-template pTemplate="header">
-                                        <tr>
-                                            <th >
-                                                <div class="flex align-items-center">
-                                                    Commodity Type
-                                                    <p-columnFilter type="text" field="commoditytype" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                          
-                                            <th>
-                                                <div class="flex align-items-center"> Symbol <p-columnFilter type="symbol"    field="symbol" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="flex align-items-center"> P.Year <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="flex align-items-center"> Prev Close <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="flex align-items-center"> Close <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="flex align-items-center"> Difference <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="flex align-items-center"> Day High <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="flex align-items-center"> Day Low <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="flex align-items-center"> Volume <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                                </div>
-                                            </th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-customer>
-                                        
-                                    </ng-template>
-                                    <ng-template pTemplate="emptymessage">
-                                        <tr>
-                                            <td colspan="7">No Data Found.</td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
+                                                    field="commoditytype"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Symbol
+                                                <p-columnFilter
+                                                    type="symbol"
+                                                    field="symbol"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                P.Year
+                                                <p-columnFilter
+                                                    type="Number"
+                                                    field="Number"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Prev Close
+                                                <p-columnFilter
+                                                    type="Number"
+                                                    field="Number"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Close
+                                                <p-columnFilter
+                                                    type="Number"
+                                                    field="Number"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Difference
+                                                <p-columnFilter
+                                                    type="Number"
+                                                    field="Number"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Day High
+                                                <p-columnFilter
+                                                    type="Number"
+                                                    field="Number"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Day Low
+                                                <p-columnFilter
+                                                    type="Number"
+                                                    field="Number"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                Volume
+                                                <p-columnFilter
+                                                    type="Number"
+                                                    field="Number"
+                                                    display="menu"
+                                                ></p-columnFilter>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-customer>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="7">No Data Found.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </div>
                     </p-tabPanel>
                 </p-tabView>
-                <div *ngIf="selectedCommodity != 'Coffee'" class="card flex justify-content-center">
-                    <p-table
-                    #dt1
-                    [value]="products"
-                    dataKey="id"
-                    [rows]="3"
-                    [showCurrentPageReport]="true"
-                    [rowsPerPageOptions]="[10, 25, 50]"
-                    [loading]="loading"
-                    [paginator]="true"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                    [globalFilterFields]="[
-                        'date',
-                    ]"
+                <div
+                    *ngIf="selectedCommodity != 'Coffee'"
+                    class="card flex justify-content-center"
                 >
-                    <ng-template pTemplate="caption">
-                        <div class="flex">
-                            <button
-                                pButton
-                                label="Clear"
-                                class="p-button-outlined"
-                                icon="pi pi-filter-slash"
-                                (click)="clear(dt1)"
-                            ></button>
-                            <span class="p-input-icon-left ml-auto">
-                                <i class="pi pi-search"></i>
-                                <input
-                                    pInputText
-                                    type="text"
-                                    (input)="
-                                        dt1.filterGlobal(
-                                            $event.target.value,
-                                            'contains'
-                                        )
-                                    "
-                                    placeholder="Search keyword"
-                                />
-                            </span>
-                        </div>
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th >
-                                <div class="flex align-items-center">
-                                    Commodity Type
-                                    <p-columnFilter type="text" field="commoditytype" display="menu" ></p-columnFilter>
-                                </div>
-                            </th>
-                          
-                            <th>
-                                <div class="flex align-items-center"> Symbol <p-columnFilter type="symbol"    field="symbol" display="menu" ></p-columnFilter>
-                                </div>
-                            </th>
-                            <th>
-                                <div class="flex align-items-center"> P.Year <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                </div>
-                            </th>
-                            <th>
-                                <div class="flex align-items-center"> Prev Close <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                </div>
-                            </th>
-                            <th>
-                                <div class="flex align-items-center"> Close <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                </div>
-                            </th>
-                            <th>
-                                <div class="flex align-items-center"> Difference <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                </div>
-                            </th>
-                            <th>
-                                <div class="flex align-items-center"> Day High <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                </div>
-                            </th>
-                            <th>
-                                <div class="flex align-items-center"> Day Low <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                </div>
-                            </th>
-                            <th>
-                                <div class="flex align-items-center"> Volume <p-columnFilter type="Number" field="Number" display="menu" ></p-columnFilter>
-                                </div>
-                            </th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-product>
-                        <tr>
-                            <td style="width: 12%;">{{product.commodityCatagory}}</td>
-                            <td style="width: 12%">{{product.symbol}}</td>
-                            <td style="width: 12%">{{product.productionYear}}</td>
-                            <td style="width: 12%">{{product.previousClosing}}</td>
-                            <td style="width: 12%;">{{product.closingPrice}}</td>
-                            <td style="width: 12%">{{product.change}}</td>
-                            <td style="width: 12%;">{{product.dayHigh}}</td>
-                            <td style="width: 12%;">{{product.dayLow}}</td>
-                            <td style="width: 12%;">{{product.volumeInQuintal}}</td> 
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="emptymessage">
-                        <tr>
-                            <td colspan="7">No Data Found.</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
+                    <p-table
+                        #dt1
+                        [value]="products"
+                        dataKey="id"
+                        [rows]="3"
+                        [showCurrentPageReport]="true"
+                        [rowsPerPageOptions]="[10, 25, 50]"
+                        [loading]="loading"
+                        [paginator]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [globalFilterFields]="['date']"
+                    >
+                        <ng-template pTemplate="caption">
+                            <div class="flex">
+                                <button
+                                    pButton
+                                    label="Clear"
+                                    class="p-button-outlined"
+                                    icon="pi pi-filter-slash"
+                                    (click)="clear(dt1)"
+                                ></button>
+                                <span class="p-input-icon-left ml-auto">
+                                    <i class="pi pi-search"></i>
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        (input)="
+                                            dt1.filterGlobal(
+                                                $event.target.value,
+                                                'contains'
+                                            )
+                                        "
+                                        placeholder="Search keyword"
+                                    />
+                                </span>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>
+                                    <div class="flex align-items-center">
+                                        Commodity Type
+                                        <p-columnFilter
+                                            type="text"
+                                            field="commoditytype"
+                                            display="menu"
+                                        ></p-columnFilter>
+                                    </div>
+                                </th>
+
+                                <th>
+                                    <div class="flex align-items-center">
+                                        Symbol
+                                        <p-columnFilter
+                                            type="symbol"
+                                            field="symbol"
+                                            display="menu"
+                                        ></p-columnFilter>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="flex align-items-center">
+                                        P.Year
+                                        <p-columnFilter
+                                            type="Number"
+                                            field="Number"
+                                            display="menu"
+                                        ></p-columnFilter>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="flex align-items-center">
+                                        Prev Close
+                                        <p-columnFilter
+                                            type="Number"
+                                            field="Number"
+                                            display="menu"
+                                        ></p-columnFilter>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="flex align-items-center">
+                                        Close
+                                        <p-columnFilter
+                                            type="Number"
+                                            field="Number"
+                                            display="menu"
+                                        ></p-columnFilter>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="flex align-items-center">
+                                        Difference
+                                        <p-columnFilter
+                                            type="Number"
+                                            field="Number"
+                                            display="menu"
+                                        ></p-columnFilter>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="flex align-items-center">
+                                        Day High
+                                        <p-columnFilter
+                                            type="Number"
+                                            field="Number"
+                                            display="menu"
+                                        ></p-columnFilter>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="flex align-items-center">
+                                        Day Low
+                                        <p-columnFilter
+                                            type="Number"
+                                            field="Number"
+                                            display="menu"
+                                        ></p-columnFilter>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="flex align-items-center">
+                                        Volume
+                                        <p-columnFilter
+                                            type="Number"
+                                            field="Number"
+                                            display="menu"
+                                        ></p-columnFilter>
+                                    </div>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-product>
+                            <tr>
+                                <td style="width: 12%">{{ product.origin }}</td>
+                                <td style="width: 12%">{{ product.symbol }}</td>
+                                <td style="width: 12%">
+                                    {{ product.productionYear }}
+                                </td>
+                                <td style="width: 12%">
+                                    {{ product.previousClosing }}
+                                </td>
+                                <td style="width: 12%">
+                                    {{ product.closingPrice }}
+                                </td>
+                                <td style="width: 12%">{{ product.change }}</td>
+                                <td style="width: 12%">
+                                    {{ product.dayHigh }}
+                                </td>
+                                <td style="width: 12%">{{ product.dayLow }}</td>
+                                <td style="width: 12%">
+                                    {{ product.volumeInQuintal }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="7">No Data Found.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
                 </div>
             </div>
         </div>

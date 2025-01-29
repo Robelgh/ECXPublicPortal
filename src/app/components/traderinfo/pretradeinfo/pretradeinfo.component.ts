@@ -57,6 +57,7 @@ export class PretradeinfoComponent {
       this.marketdataService.getCommodities().then((com:any) =>
         {
             this.commodity=com
+            console.log( this.commodity)
         })
        this.marketdataService.getNonCoffeePretrade().then((info) => {
         this.pretradeNonCoffee=info
@@ -87,12 +88,14 @@ export class PretradeinfoComponent {
        if (this.isJSON(selectedItem)) {
         this.ngzone.run(()=>
         {
-          this.pretradeNonCoffee= this.orginalPretradeNonCoffee.filter((x)=> x.commodityType === selectedItem.name)
-          if(selectedItem.name === "Coffee"){
+          console.log(this.orginalPretradeNonCoffee)
+        
+          if(selectedItem.engName === "Coffee"){
             this.coffeeOptionShow = true;
           }
           else{
             this.coffeeOptionShow=false;
+            this.pretradeNonCoffee= this.orginalPretradeNonCoffee.filter((x)=> x.commodityType === selectedItem.engName)
           }
         })
         }
