@@ -13,3 +13,47 @@ $gutter: 1rem; //for primeflex grid system
 @import "assets/demo/styles/badges.scss";
 @import "assets/demo/styles/code.scss";
 
+.dailytradepdf{
+    //display:none;
+}
+#contentToDownload{
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  
+}
+.table-with-bg {
+    width:100%;
+    height: 100%;
+    background: 
+    url('./assets/demo/images/login/ECXLogo.jpg') no-repeat center center / cover,  /* Your background image */
+    rgba(255, 255, 255, 0.5); 
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 20px;  /* Optional: adjust padding as needed */
+    //opacity: 0.5;
+}
+
+.font-m{
+    font-weight: bold;
+}
+.flex-h{
+    display: flex;
+    flex-direction: row;
+   
+}
+.flex-v{
+    display: flex;
+    flex-direction: column;
+    margin: 1vh; 
+}
+.margin-b{
+    margin-bottom: 2vh;
+}
+.cartPackageList{
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+}

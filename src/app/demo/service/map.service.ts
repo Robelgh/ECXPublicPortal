@@ -76,7 +76,7 @@ export class MapTo {
   
   }
 
-  isWalkingCustomer(username:string):boolean
+  isWalkinCustomer(username:string):boolean
   {
     
    return username.length >= 2 && /\d/.test(username.charAt(1));

@@ -31,8 +31,8 @@ export class LoginComponent {
    
 
     login(){
-        console.log(this.mapto.isWalkingCustomer(this.loginModel.UserName))
-        if(this.mapto.isWalkingCustomer(this.loginModel.UserName))
+        console.log(this.mapto.isWalkinCustomer(this.loginModel.UserName))
+        if(this.mapto.isWalkinCustomer(this.loginModel.UserName))
         {
             this.authService.auth(this.mapto.convertJsonToFormData(this.loginModel)).then(data => {
                 if(data.success)

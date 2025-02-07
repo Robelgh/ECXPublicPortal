@@ -24,6 +24,7 @@ import { InputTextareaModule } from "primeng/inputtextarea";
 import { InputTextModule } from "primeng/inputtext";
 
 
+
 import { DailytradedataRoutingModule } from './dailytradedata-routing.module';
 
 

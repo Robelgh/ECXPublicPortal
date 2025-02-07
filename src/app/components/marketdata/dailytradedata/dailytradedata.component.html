@@ -1,23 +1,17 @@
-<div class="grid">
+ <div class="grid">
     <div class="col-12">
         <div class="card">
             <div class="flex align-items-center justify-content-between">
                 <h5>Daily Trade Data</h5>
             </div>
-            <div class="flex align-items-center justify-content-between mb-1">
-                <div class="flex align-items-start">
-                    <label>Date: 1/1/2025</label>
+            <div class="grid align-items-center justify-content-between mb-1">
+                <div class="col-6 xl:col-6">
+                    <label class="mr-2 mb-3">Date: 1/1/2025</label>
                 </div>
-                <div class="flex align-items-end">
-                    <ul class="list-none">
-                        <li>Currency :ETB</li>
-                        <li>
-                            Volume : feresula for coffee and quintal for other
-                        </li>
-                        <li>1 Quintal : 100kg</li>
-                        <li>1 Feresula : 17kg</li>
-                    </ul>
+                <div class="col-6 xl:col-6">
+                    <label class="mr-2 mb-3">Currency: ETB, Volume: Feresula for Coffee and Quintal for other, 1 Quintal = 100kg, 1 Feresula = 17kg </label>
                 </div>
+           
             </div>
             <div
                 style="
@@ -37,7 +31,7 @@
                     [dropdown]="true"
                 >
                 </p-autoComplete>
-                <div class="flex">
+                <div  *ngIf="pdfButtonShow" class="flex">
                     <button
                         type="button"
                         pButton
@@ -69,6 +63,7 @@
                                 [paginator]="true"
                                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                                 [globalFilterFields]="['date']"
+                                class="custom-table-background"
                             >
                                 <ng-template pTemplate="caption">
                                     <div class="flex">
@@ -583,7 +578,7 @@
     <div class="col-12">
         <div class="card">
             <div class="flex align-items-center justify-content-between mb-4">
-                <h5>Sunscription Status</h5>
+                <h5>Subscription Status</h5>
             </div>
 
             <span class="block text-600 font-medium mb-3">TODAY</span>
@@ -597,4 +592,40 @@
             </ul>
         </div>
     </div>
-</div>
+</div> 
+
+
+<!-- <button
+type="button"
+pButton
+pRipple
+icon="pi pi-file-pdf"
+(click)="exportPdf()"
+class="p-button-warning mr-2"
+pTooltip="PDF"
+tooltipPosition="bottom"
+></button>  -->
+
+<!-- <button (click)="exportPdf()" pButton  label="Export as pdf"></button>
+<p-table [columns]="selectedColumns" [value]="products">
+    <ng-template pTemplate="caption">
+        <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+            selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}" placeholder="Choose Columns"></p-multiSelect>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th>Code</th>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let-columns="columns">
+        <tr>
+            <td>{{product.code}}</td>
+            <td *ngFor="let col of columns">
+                {{product[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table> -->

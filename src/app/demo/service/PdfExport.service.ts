@@ -7,7 +7,7 @@ import { jsPDF } from 'jspdf';
 })
 export class PdfExportService {
 
-  exportTableToPdf() {
+  exportTableToPdf(content: string, fileName: string): void {
     const doc = new jsPDF();
     doc.text("Hello, this is your PDF!", 10, 10);
     doc.text("Click to print this document.", 10, 20);
