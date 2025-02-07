@@ -72,48 +72,16 @@ export class DailytradedataComponent {
             dataKey: col.field
             }));
 
-        this.items = [
-            { title: 'Item 1', description: 'Description 1', imageUrl: 'https://via.placeholder.com/150' },
-            { title: 'Item 2', description: 'Description 2', imageUrl: 'https://via.placeholder.com/150' },
-            { title: 'Item 3', description: 'Description 3', imageUrl: 'https://via.placeholder.com/150' },
-          ];
-          this.customerService.getCustomersLarge().then((customers) => {
-              this.customers = customers;
-              this.loading = false;
-    
-            //  this.customers.forEach((customer) => (customer.date = new Date(<any>customer.date)));
-          });
           this.marketDataService.getCommodities().then(com =>
             {
                 this.commodity=com
-                console.log(this.commodity)
                 this.selectedCommodityAdvanced =  this.commodity.find(item => item.commodityId === "71604275-df23-4449-9dae-36501b14cc3b");
                 if(this.selectedCommodityAdvanced != null){
                     this.onCommoditySelect(this.selectedCommodityAdvanced) 
+                    this.loading = false;
                 }
             })
     
-          this.representatives = [
-              { name: 'Amy Elsner', image: 'amyelsner.png' },
-              { name: 'Anna Fali', image: 'annafali.png' },
-              { name: 'Asiya Javayant', image: 'asiyajavayant.png' },
-              { name: 'Bernardo Dominic', image: 'bernardodominic.png' },
-              { name: 'Elwin Sharvill', image: 'elwinsharvill.png' },
-              { name: 'Ioni Bowcher', image: 'ionibowcher.png' },
-              { name: 'Ivan Magalhaes', image: 'ivanmagalhaes.png' },
-              { name: 'Onyama Limba', image: 'onyamalimba.png' },
-              { name: 'Stephen Shaw', image: 'stephenshaw.png' },
-              { name: 'Xuxue Feng', image: 'xuxuefeng.png' }
-          ];
-    
-          this.statuses = [
-              { label: 'Unqualified', value: 'unqualified' },
-              { label: 'Qualified', value: 'qualified' },
-              { label: 'New', value: 'new' },
-              { label: 'Negotiation', value: 'negotiation' },
-              { label: 'Renewal', value: 'renewal' },
-              { label: 'Proposal', value: 'proposal' }
-          ];
       }
     
       clear(table: any) {
@@ -155,8 +123,7 @@ export class DailytradedataComponent {
     }
 
     onCommoditySelect(selectedItem: any) {
-        console.log(selectedItem)
-      
+
         if (this.isJSON(selectedItem)) {
            this.selectedCommodity=selectedItem.engName;
             this.marketDataService.getDailyTradeDate(selectedItem.commodityId).then((market => {

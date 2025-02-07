@@ -31,10 +31,7 @@ export class LoginComponent {
    
 
     login(){
-        console.log(this.mapto.isWalkinCustomer(this.loginModel.UserName))
-        if(this.mapto.isWalkinCustomer(this.loginModel.UserName))
-        {
-            this.authService.auth(this.mapto.convertJsonToFormData(this.loginModel)).then(data => {
+        this.authService.auth(this.loginModel).then(data => {
                 if(data.success)
                 {
                     this.authService.login(data)
@@ -43,19 +40,6 @@ export class LoginComponent {
                 this.errorMessage=data.message
                 }
             });
-        }
-        else{
-                this.authService.auth(this.mapto.convertJsonToFormData(this.loginModel)).then(data => {
-                        if(data.success)
-                        {
-                            this.authService.login(data)
-                        }
-                        else{
-                        this.errorMessage=data.message
-                        }
-                    });
-        }
-    
-        
+       
     }
 }

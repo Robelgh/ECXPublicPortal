@@ -1,6 +1,7 @@
 
 import { Injectable } from "@angular/core";
 import { Router, ActivatedRoute,NavigationExtras } from '@angular/router';
+import { MapTo } from "../map.service";
 import { Observable, of } from "rxjs";
 import { tap, delay } from "rxjs/operators";
 import { jwtDecode } from "jwt-decode";
@@ -19,14 +20,26 @@ export class AuthService {
     reirectUrl: string|null = null;
     constructor(
         private router: Router,
-        private http: HttpClient
+        private http: HttpClient,
+        private mapto:MapTo,
     ){}
 
     auth(data:any) {
-        return this.http.post<any>(baseUrl + "/ADlogin",data)
+     
+      if(!this.mapto.isWalkinCustomer(data.UserName))
+      {
+        return this.http.post<any>(baseUrl + "/AD/login",this.mapto.convertJsonToFormData(data))
             .toPromise()
-            .then(res => res)
+            .then(res => data)
             .then(data => data);
+      }
+      else{
+        return this.http.post<any>(baseUrl + "/MCR/AD/login",this.mapto.convertJsonToFormData(data))
+        .toPromise()
+        .then(res => res)
+        .then(data => data);
+      }
+        
     }
 
     login(data: any) {
@@ -81,6 +94,17 @@ export class AuthService {
           return role;
       }
 
+      getUserName(): string{
+        const token = this.getToken();
+        let name='';
+        const decoded: any = jwtDecode(token);
+        for (let key in decoded) {
+            if (key.includes('name')) {
+               name= `${decoded[key]}`
+            }
+          }
+          return name;
+      }
       getId(){
         const token = this.getToken();
         let id='';

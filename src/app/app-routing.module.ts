@@ -2,7 +2,7 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { NotfoundComponent } from './demo/components/notfound/notfound.component';
 import { AppLayoutComponent } from "./layout/app.layout.component";
-
+import { authGuardGuard } from './demo/service/auth/auth-guard.guard';
 @NgModule({
     imports: [
         RouterModule.forRoot([
@@ -12,7 +12,8 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
                     { path: '', loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule) },
                     { path: 'tradeinfo', loadChildren: () => import('./components/traderinfo/traderinfo.module').then(m => m.TraderinfoModule) },
                     { path: 'market', loadChildren: () => import('./components/marketdata/marketdata.module').then(m => m.MarketdataModule) }
-                ]
+                ],
+                canActivate: [authGuardGuard]
             },
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },
             { path: 'notfound', component: NotfoundComponent },

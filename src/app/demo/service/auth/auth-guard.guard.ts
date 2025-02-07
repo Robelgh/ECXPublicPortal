@@ -21,7 +21,6 @@ export const roleGuard: CanMatchFn = (route, segments) => {
     const authService = inject( AuthService );
 
     if (authService.isLoggedIn()) {
-      	//return (localStorage.getItem('ou').toUpperCase() == "IT");
         return  (authService.getRole().toUpperCase() != "USER" )? true : false;
     }
 

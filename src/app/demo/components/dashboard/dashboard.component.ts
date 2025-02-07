@@ -30,19 +30,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     products!: any[];
     symbols:any[];
     commodity:any[];
-
+    selectedCommodity: string="Coffee";
     chartData: any;
     selectedCommodityAdvanced: any[] = [];
     selectedSymbolAdvanced: any[] = [];
-
     chartOptions: any;
-
     subscription!: Subscription;
-
     cities: City[] | undefined;
-
     selectedCity: City | undefined;
-
 
     countries: any[] | undefined;
     filteredCountries: any[] | undefined;
@@ -59,42 +54,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-
-        
-        this.countryService.getCountries().then(countries => {
-            this.countries = countries;
-        });
+ 
 
         this.marketDataService.getSymbol().then(sy =>{
             this.symbols=sy
+            console.log(sy)
         })
         this.marketDataService.getCommodities().then(com =>
         {
             this.commodity=com
+            this.selectedCommodityAdvanced =  this.commodity.find(item => item.commodityId === "71604275-df23-4449-9dae-36501b14cc3b");
+            if(this.selectedCommodityAdvanced != null){
+                this.onCommoditySelect(this.selectedCommodityAdvanced) 
+            }
         }
         )
-        this.cities = [
-            { name: 'New York', code: 'NY' },
-            { name: 'Rome', code: 'RM' },
-            { name: 'London', code: 'LDN' },
-            { name: 'Istanbul', code: 'IST' },
-            { name: 'Paris', code: 'PRS' }
-        ];
-
-        this.countries = [
-            { name: 'New York', code: 'NY' },
-            { name: 'Rome', code: 'RM' },
-            { name: 'London', code: 'LDN' },
-            { name: 'Istanbul', code: 'IST' },
-            { name: 'Paris', code: 'PRS' }
-        ];
+   
         this.initChart();
         this.productService.getProductsSmall().then(data => this.products = data);
 
-        this.items = [
-            { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-            { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-        ];
     }
 
     initChart() {
@@ -103,57 +81,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-        this.chartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-                {
-                    label: 'First Dataset',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    borderColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    tension: .4
-                },
-                {
-                    label: 'Second Dataset',
-                    data: [28, 48, 40, 19, 86, 27, 90],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--green-600'),
-                    borderColor: documentStyle.getPropertyValue('--green-600'),
-                    tension: .4
-                }
-            ]
-        };
-
-        this.chartOptions = {
-            plugins: {
-                legend: {
-                    labels: {
-                        color: textColor
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
-                },
-                y: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
-                }
-            }
-        };
+   
     }
 
     ngOnDestroy() {
@@ -193,7 +121,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     onCommoditySelect(selectedItem: any) {
      
         if (this.isJSON(selectedItem)) {
-            console.log('Selected Commodity:', selectedItem.commodityId);
             this.marketDataService.getMarketDataCommodity(selectedItem.commodityId).then((market => {
                 this.products=market
             }))
