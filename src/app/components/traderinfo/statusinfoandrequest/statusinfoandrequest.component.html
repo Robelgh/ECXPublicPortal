@@ -3,62 +3,57 @@
 
     <div class="col-12 xl:col-6">
         <div class="card">
-            <h5>Pending Requests</h5>
-            <p-table  [paginator]="true" [rows]="5" responsiveLayout="scroll" >
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Session</th>
-                        <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                        <th pSortableColumn="price">Open <p-sortIcon field="price"></p-sortIcon></th>
-                        <th>Close</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-product>
-                    <tr>
-                        <td style="width: 20%; min-width: 5rem;">
-                           Session1
-                        </td>
-                        <td style="width: 70%; min-width: 7rem;">Washed Sidama, Yirgachefe , Limu , Mixed Coffee (Washed Coffee)</td>
-                        <td style="width: 5%; min-width: 8rem;">3:15</td>
-                        <td style="width: 5%;">11:30</td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
-        <div class="card">
             <div class="flex justify-content-between align-items-center mb-5">
                 <h5>New Request</h5> 
             </div>
              <div>
                 <div class="grid">
+                 
+                    <p-checkbox [(ngModel)]="checked" [binary]="true"  />
+                        <label for="ny" class="ml-2">Self ?</label>
+                  
                     <div class="col-12 md:col-12">
                         <div class="card p-fluid">
                             <div class="field grid">
-                                <label htmlFor="name3" class="col-12 mb-2 md:col-4 md:mb-0">Member/Client</label>
-                                <div class="col-12 md:col-8">
-                                    <input pInputText id="name3" type="text" />
-                                </div>
-                            </div>
-                            <div class="field grid">
-                                <label htmlFor="email3" class="col-12 mb-2 md:col-4 md:mb-0">ID</label>
-                                <div class="col-12 md:col-8">
-                                    <input pInputText id="email3" type="text" />
-                                </div>
-                            </div>
+                                <label htmlFor="email3" class="col-12 mb-2 md:col-4 md:mb-4" [ngClass]="{'disabled-label': checked}">
+                                    Client:
+                                  </label>
+                                  <div class="col-12 md:col-8 mb-4">
+                                    <p-dropdown 
+                                      [options]="Client" 
+                                      optionLabel="idno" 
+                                      [showClear]="true" 
+                                      placeholder="Select a Client" 
+                                      [disabled]="checked">
+                                    </p-dropdown>
+                                  </div>
 
-                            <div class="field grid">
-                                <label htmlFor="email3" class="col-12 mb-2 md:col-4 md:mb-0">Phone Number</label>
-                                <div class="col-12 md:col-8">
-                                    <input pInputText id="email3" type="text" />
+                                <label htmlFor="email3" class="col-12 mb-2 md:col-4 md:mb-4">Type:</label>
+                                <div class="col-12 md:col-8 mb-4">
+                                    <p-dropdown 
+                                        [options]="dropdownItems" 
+                                        optionLabel="name" 
+                                        [(ngModel)]="selectedType"
+                                        [showClear]="true" 
+                                        placeholder="Select a Type"
+                                        (onChange)="onTypeChange($event)">
+                                        </p-dropdown>
                                 </div>
-                            </div>
+                            
+                                <label *ngIf="selectedType == 0" htmlFor="email3" class="col-12 mb-2 md:col-4 md:mb-4">GRN:</label>
+                                <div *ngIf="selectedType == 0" class="col-12 md:col-8 mb-4">
+                                    <input  [(ngModel)]="statusModel.data"   pInputText id="name3" type="text" />
+                                </div>
 
-                            <div class="field grid">
-                                <label htmlFor="email3" class="col-12 mb-2 md:col-4 md:mb-0">Type</label>
-                                <div class="col-12 md:col-8">
-                                    
-                                        <p-dropdown [options]="dropdownItems"optionLabel="name" [showClear]="true" placeholder="Select a City"></p-dropdown>
-                                    
+                                <label *ngIf="selectedType == 1" htmlFor="email3" class="col-12 mb-2 md:col-4 md:mb-4">WHR:</label>
+                                <div *ngIf="selectedType == 1" class="col-12 md:col-8 mb-4">
+                                    <input  [(ngModel)]="statusModel.data"   pInputText id="name3" type="text" />
+                                </div>
+
+
+                                <label *ngIf="selectedType == 2" htmlFor="email3" class="col-12 mb-2 md:col-4 md:mb-4">PSA:</label>
+                                <div *ngIf="selectedType == 2" class="col-12 md:col-8 mb-4">
+                                    <input  [(ngModel)]="statusModel.data"   pInputText id="name3" type="text" />
                                 </div>
                             </div>
                         </div>
@@ -66,7 +61,7 @@
                     </div>
                 </div>
                 <div>
-                    <button pButton pRipple label="Submit" icon="pi pi-check" class="p-button-text"></button>
+                    <button pButton pRipple label="Submit" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
                 </div>
              </div>
         </div>
@@ -75,18 +70,85 @@
     <div class="col-12 xl:col-6">
       
 
-        <div class="card">
+        <div class="card" style="max-height: 400px; overflow-y: auto;">
             <div class="flex align-items-center justify-content-between mb-4">
                 <h5>Responses</h5>
             </div>
 
-            <span class="block text-600 font-medium mb-3">TODAY</span>
-             <ul class="p-0 m-0 list-none"><li></li></ul>
+            <span class="block text-600 font-medium mb-3">Warehouse</span>
+            <div class="card">
+               <div class="grid">
+                <ul class="p-0 m-0 list-none col-6 xl:col-6 font-bold">
+                    <li class="m-2">Symbol :</li>
+                    <li class="m-2">Warehouse :</li>
+                    <li class="m-2">Production Year :</li>
+                    <li class="m-2">Total Number of Bags :</li>
+                    <li class="m-2">Net Weight :</li>
+                    <li class="m-2">Total Value :</li>
+                  </ul>
+                  <ul class="p-0 m-0 list-none col-6 xl:col-6">
+                    <li class="m-2">{{WarehouseStatus.symbol? WarehouseStatus.symbol : "--" }}</li>
+                    <li class="m-2">{{WarehouseStatus.symbol? WarehouseStatus.warehouse : "--" }}</li>
+                    <li class="m-2">{{WarehouseStatus.symbol? WarehouseStatus.productionYear : "--" }}</li>
+                    <li class="m-2">{{WarehouseStatus.symbol? WarehouseStatus.totalNumberOfBags : "--" }}</li>
+                    <li class="m-2">{{WarehouseStatus.symbol? WarehouseStatus.netweight : "--" }}</li>
+                    <li class="m-2">{{WarehouseStatus.symbol? WarehouseStatus.totalValue : "--" }}</li>
+                  </ul>
+               </div>
+            </div>
 
-            <span class="block text-600 font-medium mb-3">YESTERDAY</span>
-            <ul class="p-0 m-0 list-none">
-              <li></li>
-            </ul>
+            <span class="block text-600 font-medium mb-3">Centeral Depository</span>
+            <div class="card">
+                <div *ngFor="let whrstatus of Whrbygrnstatus" class="card grid">
+                    <ul class="p-0 m-0 list-none col-6 xl:col-6 font-bold">
+                        <li class="m-2">WHR :</li>
+                        <li class="m-2">Net Weight :</li>
+                        <li class="m-2">Current Quantity :</li>
+                        <li class="m-2">Original Quantity :</li>
+                        <li class="m-2">Gross Weight :</li>
+                        <li class="m-2">Date Deposited :</li>
+                        <li class="m-2">Date Approved :</li>
+                        <li class="m-2">Status :</li>
+                      </ul>
+                      <ul class="p-0 m-0 list-none col-6 xl:col-6">
+                        <li class="m-2">{{whrstatus.symbol? whrstatus.whr : "--" }}</li>
+                        <li class="m-2">{{whrstatus.netWeight? whrstatus.netWeight : "--" }}</li>
+                        <li class="m-2">{{whrstatus.currentQuantity? whrstatus.currentQuantity : "--" }}</li>
+                        <li class="m-2">{{whrstatus.originalQuantity? whrstatus.originalQuantity : "--" }}</li>
+                        <li class="m-2">{{whrstatus.grossWeight? whrstatus.grossWeight : "--" }}</li>
+                        <li class="m-2">{{whrstatus.dateDeposited? (whrstatus.dateDeposited | date: 'MMM-dd-yyyy') : "--" }}</li>
+                        <li class="m-2">  {{ whrstatus.dateApproved ? (whrstatus.dateApproved | date: 'MMM-dd-yyyy') : '--' }}</li>
+                        <li class="m-2">{{whrstatus.status? whrstatus.status : "--" }}</li>
+                      </ul>
+                   </div>
+            </div>
+            
+
+            <span class="block text-600 font-medium mb-3">Trade Status</span>
+            <div class="card">
+                <div *ngFor="let tradewhr of tradedStatus[0]" class="card grid">
+                
+
+                          <ul class="p-0 m-0 list-none col-6 xl:col-6 font-bold">
+                            <li class="m-2">WHR : </li>
+                            <li class="m-2">Trade Date : </li>
+                            <li class="m-2">Price :</li>
+                            <li class="m-2">Quantity :</li>
+                            <li class="m-2">Status :</li>
+                          </ul>
+                          <ul class="p-0 m-0 list-none col-6 xl:col-6">
+                            <li class="m-2">{{tradewhr.wrno? tradewhr.wrno : "--" }}</li>
+                            <li class="m-2">{{tradewhr.tradeDate? (whrstatus.tradeDate | date: 'MMM-dd-yyyy') : "--" }}</li>
+                            <li class="m-2">{{tradewhr.price? tradewhr.price : "--" }}</li>
+                            <li class="m-2">{{tradewhr.quantity? tradewhr.quantity : "--" }}</li>
+                            <li class="m-2">{{tradewhr.status? tradewhr.status : "--" }}</li>
+                        
+                          </ul>
+
+                    <!-- </div> -->
+                 
+                   </div>
+            </div>
         </div>
 
    

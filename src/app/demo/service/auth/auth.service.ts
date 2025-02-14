@@ -116,5 +116,19 @@ export class AuthService {
           }
           return id;
       }
+
+      getMemberId(){
+        const token = this.getToken();
+        let id='';
+        const decoded: any = jwtDecode(token);
+        for (let key in decoded) {
+            if (key.includes('primarysid')) {
+               id= `${decoded[key]}`
+            }
+          }
+          return id;
+      }
+
+      
     
 }

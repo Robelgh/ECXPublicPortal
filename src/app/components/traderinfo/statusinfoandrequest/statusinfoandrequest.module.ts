@@ -12,6 +12,8 @@ import { TabViewModule } from 'primeng/tabview';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { ButtonModule } from 'primeng/button';
 
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+
 
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { CalendarModule } from "primeng/calendar";
@@ -23,6 +25,7 @@ import { CascadeSelectModule } from "primeng/cascadeselect";
 import { MultiSelectModule } from "primeng/multiselect";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { InputTextModule } from "primeng/inputtext";
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 @NgModule({
@@ -49,7 +52,11 @@ import { InputTextModule } from "primeng/inputtext";
 		CascadeSelectModule,
 		MultiSelectModule,
 		InputTextareaModule,
-		InputTextModule
+		InputTextModule,
+    CheckboxModule,
+    
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class StatusinfoandrequestModule { }

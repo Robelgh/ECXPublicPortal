@@ -17,15 +17,18 @@ import { AuthService } from './demo/service/auth/auth.service';
 import { MapTo } from './demo/service/map.service';
 import { ComplainFeedBackService } from './demo/service/complainFeedBack..service.';
 import { PdfExportService } from './demo/service/PdfExport.service';
+import { MCRService } from 'src/app/demo/service/MCR.service';
+import { ProgressSpinnerModule }  
+    from 'primeng/progressspinner'; 
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
-    imports: [AppRoutingModule, AppLayoutModule],
+    imports: [AppRoutingModule, AppLayoutModule,ProgressSpinnerModule],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
         PhotoService, ProductService,MarketDataService,SessionSchedule,AuthService,
-        MapTo,ComplainFeedBackService,PdfExportService
+        MapTo,ComplainFeedBackService,PdfExportService,MCRService
     ],
     bootstrap: [AppComponent],
 })

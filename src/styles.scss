@@ -57,3 +57,31 @@ $gutter: 1rem; //for primeflex grid system
     flex-direction: column;
     gap: 3vh;
 }
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* Ensure it's above other content */
+  }
+  
+ 
+  .container {
+    transition: filter 0.3s ease;
+    /* Optional: smooth transition effect */
+  }
+  
+  .blurred {
+    filter: blur(4px);
+    /* Optionally blur the content */
+    pointer-events: none;
+    /* Disable pointer events on blurred content */
+  }

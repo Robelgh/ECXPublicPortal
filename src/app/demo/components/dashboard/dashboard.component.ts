@@ -58,7 +58,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         this.marketDataService.getSymbol().then(sy =>{
             this.symbols=sy
-            console.log(sy)
         })
         this.marketDataService.getCommodities().then(com =>
         {
