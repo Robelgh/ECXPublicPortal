@@ -55,7 +55,6 @@ export class StatusinfoandrequestComponent {
         this.mcrservice.checkwhrbygrn(this.statusModel.data).then((y)=>{
           this.Whrbygrnstatus=y
             if(this.Whrbygrnstatus.length){
-             
                 const promises = this.Whrbygrnstatus.map((status) => {
                   return this.mcrservice.checktradestatusbywhr(status.whr);
               });
@@ -70,7 +69,6 @@ export class StatusinfoandrequestComponent {
               });
               
             }
-            console.log(this.tradedStatus)
         })
        })
     }

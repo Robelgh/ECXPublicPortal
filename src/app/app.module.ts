@@ -18,6 +18,9 @@ import { MapTo } from './demo/service/map.service';
 import { ComplainFeedBackService } from './demo/service/complainFeedBack..service.';
 import { PdfExportService } from './demo/service/PdfExport.service';
 import { MCRService } from 'src/app/demo/service/MCR.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './demo/components/auth/login/AuthInterceptor';
+
 import { ProgressSpinnerModule }  
     from 'primeng/progressspinner'; 
 
@@ -26,6 +29,7 @@ import { ProgressSpinnerModule }
     imports: [AppRoutingModule, AppLayoutModule,ProgressSpinnerModule],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         CountryService, CustomerService, EventService, IconService, NodeService,
         PhotoService, ProductService,MarketDataService,SessionSchedule,AuthService,
         MapTo,ComplainFeedBackService,PdfExportService,MCRService

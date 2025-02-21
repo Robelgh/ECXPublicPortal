@@ -1,19 +1,27 @@
-import { inject } from "@angular/core";
-import { CanMatchFn, Router,CanActivate } from "@angular/router";
+import { inject } from '@angular/core';
+import { CanMatchFn, Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { AuthService } from './auth.service'; // Update with the correct path
+import { map, catchError } from 'rxjs/operators';
 
-
-import { AuthService } from "./auth.service";
 export const authGuardGuard: CanMatchFn = (route, segments) => {
-    const router = inject( Router );
-    const authService = inject( AuthService );
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-   authService.getId()
-
-    if (authService.isLoggedIn()) {
-      	return true;
-    }
-
-	return router.createUrlTree(['/login']);
+  // Call the checkSession method from the AuthService to check if the session is valid
+  return authService.checkSession().pipe(
+    map((response) => {
+      if (response?.valid) {
+        return true; 
+      } else {
+        return router.createUrlTree(['auth/login']);
+      }
+    }),
+    catchError((error) => {
+      console.error("Session check failed", error);
+      return of(router.createUrlTree(['auth/login']));
+    })
+  );
 };
 
 export const roleGuard: CanMatchFn = (route, segments) => {

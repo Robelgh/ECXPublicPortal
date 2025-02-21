@@ -28,7 +28,7 @@ export class AuthService {
      
       if(!this.mapto.isWalkinCustomer(data.UserName))
       {
-        return this.http.post<any>(baseUrl + "/AD/login",this.mapto.convertJsonToFormData(data))
+        return this.http.post<any>(baseUrl + "/AD/login",this.mapto.convertJsonToFormData(data),{ withCredentials: true })
             .toPromise()
             .then(res => data)
             .then(data => data);
@@ -43,7 +43,7 @@ export class AuthService {
     }
 
     login(data: any) {
-       
+ 
                 const redirectUrl = "/";
                 const navigationExtras: NavigationExtras = {
                   queryParamsHandling: "preserve",
@@ -67,7 +67,7 @@ export class AuthService {
         return localStorage.getItem('token');
       }
     
-      isTokenExpired(): boolean {
+    isTokenExpired(): boolean {
         const token = this.getToken();
         if (!token) return true;
     
@@ -81,7 +81,7 @@ export class AuthService {
         return Date.now() > expirationDate;
       }
 
-      getRole(): string{
+    getRole(): string{
         const token = this.getToken();
         let role='';
         const decoded: any = jwtDecode(token);
@@ -94,7 +94,7 @@ export class AuthService {
           return role;
       }
 
-      getUserName(): string{
+    getUserName(): string{
         const token = this.getToken();
         let name='';
         const decoded: any = jwtDecode(token);
@@ -105,7 +105,7 @@ export class AuthService {
           }
           return name;
       }
-      getId(){
+    getId(){
         const token = this.getToken();
         let id='';
         const decoded: any = jwtDecode(token);
@@ -117,7 +117,7 @@ export class AuthService {
           return id;
       }
 
-      getMemberId(){
+    getMemberId(){
         const token = this.getToken();
         let id='';
         const decoded: any = jwtDecode(token);
@@ -129,6 +129,8 @@ export class AuthService {
           return id;
       }
 
-      
+      checkSession(): Observable<any> {
+        return this.http.get<any>(`${baseUrl}/check-session`, { withCredentials: true });
+      }   
     
 }
