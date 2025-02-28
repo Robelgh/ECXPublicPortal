@@ -12,7 +12,15 @@
         <i class="pi pi-ellipsis-v"></i>
     </button>
 
+ 
+
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        
+        <a href="http://10.3.5.95:17023/" class="p-link layout-topbar-button">
+            <i class="pi pi-fw pi-globe"></i>
+            <span>Goto Trade ?</span>
+        </a>
+        
         <button class="p-link layout-topbar-button">
             <i (click)="logout()" class="pi pi-user"></i>
             <span (click)="logout()">Logout</span>

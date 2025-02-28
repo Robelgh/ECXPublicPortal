@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
-import { State } from './demo/State/State';
+import { State } from './State/State';
 import { NgZone } from '@angular/core';
 
 @Component({
