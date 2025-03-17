@@ -6,12 +6,22 @@ import { Observable, of } from "rxjs";
 import { tap, delay } from "rxjs/operators";
 import { jwtDecode } from "jwt-decode";
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 const baseUrl = `${environment.apiUrl}/Account`;
+const mfaUrl = `${environment.mfaUrl}`;
+
+let data={};
 
 
+var  Miniorange= {
+  
+  "customerKey":"1",
+  "username":"behailu.girma@ecx.com.et" ,
+  "authType":"EMAIL",
+ "transactionName":"Test"
+}
 
 @Injectable({
     providedIn: 'root'
@@ -55,6 +65,25 @@ export class AuthService {
     }
     isLoggedIn(): boolean{
         return (localStorage.getItem('token') == null ||  localStorage.getItem('token') == undefined)? false : true
+    }
+
+    sendOTP(){
+      const headers=new HttpHeaders({
+        'Customer-Key':'1',
+        'Timestamp': '1741849537454',
+        'Authorization': '11df8551bd077431fac8795a96dfb83f9d6fb6fe8736fa689faef3448469fb00a6f01c6ecd57ccb72fd73cc4fb52bf1b537c4355e808d90598598fefe01e0054'
+      })
+      return this.http.post<any>(mfaUrl,this.mapto.convertJsonToFormData(Miniorange),{headers})
+      .toPromise()
+      .then(res => res)
+      .then(data => data);
+    }
+
+    verfiyOTP(data:any){
+      return this.http.post<any>(baseUrl + "/VerifyOTP",this.mapto.convertJsonToFormData(Miniorange))
+      .toPromise()
+      .then(res => res)
+      .then(data => data);
     }
 
     logOut(): void {

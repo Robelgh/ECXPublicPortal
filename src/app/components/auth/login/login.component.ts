@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component,NgZone } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { MapTo } from 'src/app/service/map.service';
+import { map, catchError } from 'rxjs/operators';
 
 @Component({
     selector: 'app-login',
@@ -17,23 +19,42 @@ import { MapTo } from 'src/app/service/map.service';
 })
 export class LoginComponent {
 
+    choosed:Number;
+    TransactionID:String;
+    AuthSteps:Number=0;
     valCheck: string[] = ['remember'];
     loginModel: any = {};
+    validateModel:any = {};
     password!: string;
     errorMessage:string=null;
+    filledOTP:string;
+
+    formGroup!: FormGroup;
+
+    categories: any[] = [
+        { name: 'Accounting', key: 'A' },
+        { name: 'Marketing', key: 'M' },
+        { name: 'Production', key: 'P' },
+        { name: 'Research', key: 'R' }
+    ];
 
     constructor(public layoutService: LayoutService,
                 private authService:AuthService,
-                private mapto:MapTo
+                private mapto:MapTo,
+                private ngzone:NgZone
     ) { }
 
-   
+    ngOnInit() {
+        this.formGroup = new FormGroup({
+            selectedCategory: new FormControl()
+        });
+    }
 
     login(){
         this.authService.auth(this.loginModel).then(data => {
                 if(data.success)
                 {
-                    this.authService.login(data)
+                    this.AuthSteps=1
                 }
                 else{
                 this.errorMessage=data.message
@@ -41,4 +62,36 @@ export class LoginComponent {
             });
        
     }
+
+    onSelectionChange() {
+       
+      }
+      SendOtp(){
+        this.ngzone.run(()=>{
+        this.authService.sendOTP().then((response)=>{
+           if(response.status){
+            this.TransactionID=response.txId;
+            this.AuthSteps=2
+           }
+        })
+            //this.AuthSteps=2
+        })
+      }
+
+      onOtpChange(event: any) {
+        console.log('OTP input changed:', event);
+        this.filledOTP=event
+        // Do something with the event, for example, store it or process it
+      }
+
+      Verify(){
+        this.validateModel.txId= this.TransactionID
+        this.validateModel.token= this.filledOTP
+        this.authService.verfiyOTP(this.validateModel).then((response)=>{
+            console.log(response)
+            if(response.status == "SUCCESS"){
+                this.authService.login(response);
+            }
+        })
+      }
 }

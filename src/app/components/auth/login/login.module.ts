@@ -7,6 +7,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { NgOtpInputModule } from 'ng-otp-input';
 //import { InputOtpModule } from 'primeng/inputotp';
 
 @NgModule({
@@ -17,7 +19,10 @@ import { InputTextModule } from 'primeng/inputtext';
         CheckboxModule,
         InputTextModule,
         FormsModule,
-        PasswordModule
+        PasswordModule,
+        RadioButtonModule,
+        NgOtpInputModule
+  
     ],
     declarations: [LoginComponent]
 })
