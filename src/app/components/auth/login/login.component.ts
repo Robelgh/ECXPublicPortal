@@ -69,9 +69,12 @@ export class LoginComponent {
       SendOtp(){
         this.ngzone.run(()=>{
         this.authService.sendOTP().then((response)=>{
-           if(response.status){
-            this.TransactionID=response.txId;
-            this.AuthSteps=2
+           if(response.value){
+            var data = JSON.parse(response.value)
+            this.TransactionID=data.txId;
+                this.AuthSteps=2
+            
+            
            }
         })
             //this.AuthSteps=2
@@ -88,9 +91,11 @@ export class LoginComponent {
         this.validateModel.txId= this.TransactionID
         this.validateModel.token= this.filledOTP
         this.authService.verfiyOTP(this.validateModel).then((response)=>{
-            console.log(response)
-            if(response.status == "SUCCESS"){
+            if(response.success){
                 this.authService.login(response);
+            }
+            else{
+                this.errorMessage="Wrong OTP"
             }
         })
       }

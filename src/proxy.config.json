@@ -1,0 +1,8 @@
+{
+    "/api": {
+        "target": "https://mfa.ecx.com.et",
+        "secure": true,
+        "changeOrigin": true,
+        "pathRewrite": { "^/api": "" }
+    }
+}

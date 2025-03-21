@@ -86,14 +86,14 @@
                 <div class="text-center mb-5">
                     <img src="../../../../../assets/layout/images/ECXLogoL.png" alt="Image" height="50" class="mb-3">
                     <div class="text-900 text-3xl font-medium mb-3">Welcome, ECX!</div>
-                    <span class="text-600 font-medium">Verify in to continue</span>
+                    <span class="text-600 font-medium">Verify to continue</span>
                 </div>
 
                 <div>
                     <div class="mb-3">
                         <ng-otp-input  (onInputChange)="onOtpChange($event)" [config]="{ length: 6 }"></ng-otp-input>
                     </div>
-
+                    <div class="mb-4" style="color: red;">{{errorMessage}}</div>
                     <button pButton pRipple label="Verify" class="w-full p-3 text-xl "  (click)="Verify()"></button>
                 </div>
             </div>

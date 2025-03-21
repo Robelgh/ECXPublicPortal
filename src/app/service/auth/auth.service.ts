@@ -68,19 +68,15 @@ export class AuthService {
     }
 
     sendOTP(){
-      const headers=new HttpHeaders({
-        'Customer-Key':'1',
-        'Timestamp': '1741849537454',
-        'Authorization': '11df8551bd077431fac8795a96dfb83f9d6fb6fe8736fa689faef3448469fb00a6f01c6ecd57ccb72fd73cc4fb52bf1b537c4355e808d90598598fefe01e0054'
-      })
-      return this.http.post<any>(mfaUrl,this.mapto.convertJsonToFormData(Miniorange),{headers})
+      
+      return this.http.post<any>(baseUrl+"/SendOTP",this.mapto.convertJsonToFormData(Miniorange))
       .toPromise()
       .then(res => res)
       .then(data => data);
     }
 
     verfiyOTP(data:any){
-      return this.http.post<any>(baseUrl + "/VerifyOTP",this.mapto.convertJsonToFormData(Miniorange))
+      return this.http.post<any>(baseUrl + "/VerifyOTP",data)
       .toPromise()
       .then(res => res)
       .then(data => data);
