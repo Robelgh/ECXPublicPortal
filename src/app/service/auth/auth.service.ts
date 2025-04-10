@@ -2,15 +2,15 @@
 import { Injectable } from "@angular/core";
 import { Router, ActivatedRoute,NavigationExtras } from '@angular/router';
 import { MapTo } from "../map.service";
-import { Observable, of } from "rxjs";
-import { tap, delay } from "rxjs/operators";
+import { Observable, of, throwError } from "rxjs";
+import { tap, delay, catchError } from "rxjs/operators";
 import { jwtDecode } from "jwt-decode";
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 const baseUrl = `${environment.apiUrl}/Account`;
-const mfaUrl = `${environment.mfaUrl}`;
+//const mfaUrl = `${environment.mfaUrl}`;
 
 let data={};
 
@@ -73,15 +73,41 @@ export class AuthService {
       .toPromise()
       .then(res => res)
       .then(data => data);
+    }va
+    verifyOTP(data: any){
+      console.log('Sending OTP verification request:', data);
+      return this.http.post(baseUrl+"/VerifyOTP", data).pipe(
+        tap(response => console.log('OTP verification success:', response)),
+        catchError(error => {
+          console.error('OTP verification error:', error);
+          return throwError(error);
+        })
+      );
     }
-
     verfiyOTP(data:any){
-      return this.http.post<any>(baseUrl + "/VerifyOTP",data)
+      return this.http.post<any>(baseUrl + "/VerifyOTP",data).pipe(
+        tap(response => console.log('OTP verification success:', response)),
+        catchError(error => {
+          console.error('OTP verification error:', error);
+          return throwError(error);
+        })
+      )
       .toPromise()
       .then(res => res)
       .then(data => data);
     }
-
+    VerifyOTPAUTH(data:any){
+      return this.http.post<any>(baseUrl + "/VerifyOTPAUTH",data).pipe(
+        tap(response => console.log('OTP verification success:', response)),
+        catchError(error => {
+          console.error('OTP verification error:', error);
+          return throwError(error);
+        })
+      )
+      .toPromise()
+      .then(res => res)
+      .then(data => data);
+    }
     logOut(): void {
         localStorage.clear();
         const redirectUrl = "auth/login";

@@ -62,7 +62,7 @@
                                 [(ngModel)]="choosed" 
                                 value="2" 
                                 inputId="ingredient2" 
-                                (ngModelChange)="onSelectionChange()"/>
+                                (ngModelChange)="onSelectionChange(2)"/>
                             <label for="ingredient2" class="ml-2">
                                 Authenticator
                             </label>
@@ -95,6 +95,62 @@
                     </div>
                     <div class="mb-4" style="color: red;">{{errorMessage}}</div>
                     <button pButton pRipple label="Verify" class="w-full p-3 text-xl "  (click)="Verify()"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="AuthSteps == 3" class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="flex flex-column align-items-center justify-content-center">               
+        <div style="border-radius:56px; padding:0.3rem; ">
+            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                <div class="text-center mb-5">
+                    <img src="../../../../../assets/layout/images/ECXLogoL.png" alt="Image" height="50" class="mb-3">
+                    <div class="text-900 text-3xl font-medium mb-3">Welcome, ECX!</div>
+                    <span class="text-600 font-medium">Choose Authenticator Option</span>
+                    <div class="card flex-v justify-center">
+                        <div class="flex mb-2 align-items-center">
+                            <p-radioButton 
+                                name="type" 
+                                [(ngModel)]="choosed" 
+                                value="0"  
+                                inputId="ingredient1" 
+                                (ngModelChange)="onAUTHSelectionChange(1)"/>
+                            <label for="ingredient1" class="ml-2">
+                                Google
+                            </label>
+                        </div>
+                        
+                        <div class="flex mb-2 align-items-center">
+                            <p-radioButton 
+                                name="type" 
+                                [(ngModel)]="choosed" 
+                                value="1" 
+                                inputId="ingredient2" 
+                                (ngModelChange)="onAUTHSelectionChange(2)"/>
+                            <label for="ingredient2" class="ml-2">
+                                Microsoft
+                            </label>
+                        </div>
+                    
+                        <div class="flex  mb-2 align-items-center">
+                            <p-radioButton 
+                                name="type" 
+                                [(ngModel)]="choosed" 
+                                value="2" 
+                                inputId="ingredient2" 
+                                (ngModelChange)="onAUTHSelectionChange(3)"/>
+                            <label for="ingredient2" class="ml-2">
+                                Mini-Orange
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                
+                    <button pButton pRipple label="Send OTP" class="w-full p-3 text-xl"  (click)="SendOtp()"></button>
                 </div>
             </div>
         </div>

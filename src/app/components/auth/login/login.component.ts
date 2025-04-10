@@ -28,6 +28,7 @@ export class LoginComponent {
     password!: string;
     errorMessage:string=null;
     filledOTP:string;
+    AuthType:Number=0;
 
     formGroup!: FormGroup;
 
@@ -63,8 +64,15 @@ export class LoginComponent {
        
     }
 
-    onSelectionChange() {
-       
+    onSelectionChange(value:number) {
+        if(value==2){
+            this.AuthSteps =3;
+        }
+        
+      }
+      onAUTHSelectionChange(value:Number){
+        this.AuthType = value;
+        this.AuthSteps=2
       }
       SendOtp(){
         this.ngzone.run(()=>{
@@ -88,15 +96,37 @@ export class LoginComponent {
       }
 
       Verify(){
-        this.validateModel.txId= this.TransactionID
-        this.validateModel.token= this.filledOTP
-        this.authService.verfiyOTP(this.validateModel).then((response)=>{
-            if(response.success){
-                this.authService.login(response);
-            }
-            else{
-                this.errorMessage="Wrong OTP"
-            }
-        })
+        if(this.AuthType==0)
+        {
+            this.validateModel.txId= this.TransactionID
+            this.validateModel.token= this.filledOTP
+            this.authService.verfiyOTP(this.validateModel).then((response)=>{
+                if(response.success){
+                    this.authService.login(response);
+                }
+                else{
+                    this.errorMessage="Wrong OTP"
+                }
+            })
+        }
+        else{
+            if(this.AuthType === 1)
+                this.validateModel.authType= "GOOGLE AUTHENTICATOR";
+            else if(this.AuthType === 2)
+                this.validateModel.authType= "MICROSOFT AUTHENTICATOR";
+            else if(this.AuthType === 3)
+                this.validateModel.authType= "MINIORANGE AUTHENTICATOR";
+            this.validateModel.token= this.filledOTP;
+            this.validateModel.customerKey="";
+            this.validateModel.username= "behailu.girma@ecx.com.et";
+            this.authService.VerifyOTPAUTH(this.validateModel).then((response)=>{
+                if(response.success){
+                    this.authService.login(response);
+                }
+                else{
+                    this.errorMessage="Wrong OTP"
+                }
+            })
+        }
       }
 }
